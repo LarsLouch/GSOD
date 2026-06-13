@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Último Brasileiro</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" type="image/png" href="imagens/icons/icon512x512.png">
+</head>
+<body>
+
+    <!-- Cursor Personalizado -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Canvas de Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Header / Navbar -->
+    <header>
+        <nav class="navbar">
+            <a href="#home" class="logo">
+                <img src="imagens/icons/icon512x512.png" alt="Ícone do Jogo" class="logo-icon">
+                <h1>O Último Brasileiro</h1>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#capa">Capa</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#jogabilidade">Jogabilidade</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="hero">
+            <div class="hero-background">
+                <img src="imagens/capas/fundo1438x810.png" alt="Fundo do Jogo" class="hero-bg">
+            </div>
+            <div class="hero-particles" id="hero-particles"></div>
+            <div class="hero-content">
+                <img src="imagens/capas/titulo1280x720.png" alt="O Último Brasileiro" class="hero-title">
+                <div class="typing-container">
+                    <span class="typing-text" id="typing-text"></span>
+                    <span class="typing-cursor"></span>
+                </div>
+                <button class="cta-button"><span>Jogar Agora</span></button>
+            </div>
+            <div class="scroll-indicator">
+                <span>Role para explorar</span>
+                <div class="mouse"></div>
+            </div>
+        </section>
+
+        <!-- COVER SECTION -->
+        <section id="capa" class="cover-section">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Capa Oficial</h2>
+                    <span class="title-line"></span>
+                </div>
+                <img src="imagens/capas/capa1232x706.png" alt="Capa do Jogo O Último Brasileiro" class="game-cover reveal reveal-scale">
+            </div>
+        </section>
+
+        <!-- SOBRE SECTION -->
+        <section id="sobre" class="about">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Sobre o Jogo</h2>
+                    <span class="title-line"></span>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-container reveal">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="5">0</span>
+                        <span class="stat-label">Biomas</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="20">0</span>
+                        <span class="stat-label">Armas</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="50">0</span>
+                        <span class="stat-label">Missões</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="1000">0</span>
+                        <span class="stat-label">Jogadores</span>
+                    </div>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-card reveal reveal-left">
+                        <h3>🏛️ A Crise Final</h3>
+                        <p>O Brasil como conhecemos colapsou em um pós-apocalipse distópico. Agora, figuras lendárias e caricatas lutam pelo controle das ruínas da nação. Sua missão? Sobreviver ao caos e descobrir quem restou para contar história.</p>
+                    </div>
+                    <div class="about-card reveal">
+                        <h3>⚔️ Porrada Políticamente Incorreta</h3>
+                        <p>Enfrente criaturas bizarras, mutantes e chefões implacáveis inspirados no cenário nacional. Use ataques especiais devastadores e combos aéreos dinâmicos para limpar o seu caminho.</p>
+                    </div>
+                    <div class="about-card reveal reveal-right">
+                        <h3>🎭 Três Heróis, Três Estilos</h3>
+                        <p>Escolha entre 3 personagens jogáveis totalmente diferentes. Cada um possui suas próprias mecânicas de movimentação, habilidades únicas e árvores de habilidades para triturar os inimigos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GAMEPLAY SECTION -->
+        <section id="jogabilidade" class="gameplay">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Características</h2>
+                    <span class="title-line"></span>
+                </div>
+                <div class="features">
+                    <div class="feature reveal reveal-scale">
+                        <h3>🗺️ Do Oiapoque ao Chuí</h3>
+                        <p>Explore fases desafiadoras ambientadas em versões pós-apocalípticas dos estados brasileiros. Atravesse o Planalto Central, selvas perigosas e ruínas urbanas cheias de segredos e referências.</p>
+                    </div>
+                    <div class="feature reveal reveal-scale">
+                        <h3>🕹️ Ação Plataforma Pura</h3>
+                        <p>Sinta o controle total com uma física de pulo precisa, esquivas milimétricas e um combate de ritmo acelerado feito sob medida para quem ama os clássicos do gênero.</p>
+                    </div>
+                    <div class="feature reveal reveal-scale">
+                        <h3>🦜 Puro Suco de Brasil</h3>
+                        <p>Divirta-se com uma narrativa ácida recheada de memes, sátiras sociais e piadas internas que só quem vive no Brasil vai entender de verdade.</p>
+                    </div>
+                    <div class="feature reveal reveal-scale">
+                        <h3>🗣️ Figuras Carimbadas</h3>
+                        <p>Interaja com sobreviventes excêntricos pelo caminho, aceite missões bizarras e descubra segredos hilários escondidos pelos cantos mais profundos do mapa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERIA -->
+        <section id="galeria" class="gallery">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Galeria de Imagens</h2>
+                    <span class="title-line"></span>
+                </div>
+                <div class="gallery-grid">
+                    <img src="imagens/prints/captura1.png" alt="Captura do Jogo 1" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura2.png" alt="Captura do Jogo 2" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura3.png" alt="Captura do Jogo 3" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura4.png" alt="Captura do Jogo 4" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura5.png" alt="Captura do Jogo 5" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura6.png" alt="Captura do Jogo 6" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura7.png" alt="Captura do Jogo 7" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura8.png" alt="Captura do Jogo 8" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura9.png" alt="Captura do Jogo 9" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura10.png" alt="Captura do Jogo 10" class="gallery-item reveal reveal-scale" loading="lazy">
+                    <img src="imagens/prints/captura11.png" alt="Captura do Jogo 11" class="gallery-item reveal reveal-scale" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTATO -->
+        <section id="contato" class="contact">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Entre em Contato</h2>
+                    <span class="title-line"></span>
+                </div>
+                <p style="text-align:center; color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;" class="reveal">
+                    Quer saber mais sobre o jogo? Entre em contato conosco!
+                </p>
+                <form class="contact-form reveal">
+                    <input type="text" placeholder="Seu Nome" required>
+                    <input type="email" placeholder="Seu Email" required>
+                    <textarea placeholder="Sua Mensagem" required></textarea>
+                    <button type="submit">Enviar Mensagem</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 O Último Brasileiro. Todos os direitos reservados.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

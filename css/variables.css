@@ -1,0 +1,57 @@
+/* ==========================================
+   O ÚLTIMO BRASILEIRO - CSS Variables
+   Design System - Cores, Tipografia, Dimensões
+   ========================================== */
+
+:root {
+    /* Cores Principais - Tema Pós-Apocalíptico Brasileiro */
+    --primary: #e94560;
+    --primary-dark: #c23152;
+    --primary-light: #ff6b81;
+    --primary-glow: rgba(233, 69, 96, 0.6);
+    
+    --secondary: #00d4ff;
+    --secondary-dark: #00a8cc;
+    --secondary-light: #66e3ff;
+    --secondary-glow: rgba(0, 212, 255, 0.5);
+    
+    --accent: #ffd700;
+    --accent-glow: rgba(255, 215, 0, 0.5);
+    
+    /* Fundos */
+    --bg-dark: #0a0a14;
+    --bg-darker: #05050d;
+    --bg-card: rgba(18, 18, 35, 0.92);
+    --bg-glass: rgba(14, 14, 28, 0.75);
+    --bg-card-light: rgba(25, 25, 50, 0.92);
+    
+    /* Texto */
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0c8;
+    --text-muted: #6e6e8a;
+    --text-card: #e8e8f0;
+    
+    /* Bordas & Sombras */
+    --border-glow: rgba(233, 69, 96, 0.35);
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --shadow-card: 0 12px 48px rgba(0, 0, 0, 0.6);
+    --shadow-glow-primary: 0 0 20px rgba(233, 69, 96, 0.3);
+    --shadow-glow-secondary: 0 0 20px rgba(0, 212, 255, 0.3);
+    
+    /* Dimensões */
+    --nav-height: 72px;
+    --border-radius-sm: 8px;
+    --border-radius-md: 14px;
+    --border-radius-lg: 22px;
+    --border-radius-xl: 30px;
+    
+    /* Tipografia */
+    --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-display: 'Impact', 'Arial Black', sans-serif;
+    
+    /* Transições */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
