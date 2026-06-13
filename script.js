@@ -1,7 +1,7 @@
 /* ==========================================
-   O ÚLTIMO BRASILEIRO - Main Entry Point
-   Importa e inicializa todos os módulos
-   ========================================== */
+    O ÚLTIMO BRASILEIRO - Main Entry Point
+    Importa e inicializa todos os módulos
+    ========================================== */
 
 'use strict';
 
@@ -17,6 +17,8 @@ import { GalleryLightbox } from './js/modules/GalleryLightbox.js';
 import { SmoothScroll } from './js/modules/SmoothScroll.js';
 import { ContactForm } from './js/modules/ContactForm.js';
 import { CTAAction } from './js/modules/CTAAction.js';
+import { MouseGlow } from './js/modules/MouseGlow.js';
+import { CardTilt3D } from './js/modules/CardTilt3D.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     new ParticleSystem();
@@ -31,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new SmoothScroll();
     new ContactForm();
     new CTAAction();
+    new MouseGlow();
+    new CardTilt3D();
     
     console.log('🚀 O Último Brasileiro - Efeitos Avançados Carregados!');
+    console.log('✨ Modo Next-Level: ATIVADO - Prepare-se para uma experiência de outro mundo!');
 });

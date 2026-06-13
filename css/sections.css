@@ -3,7 +3,7 @@
    Glassmorphism, Neon Borders, Efeitos de Camada
    ========================================== */
 
-/* === HEADER / NAVBAR === */
+/* === HEADER / NAVBAR - GLASS PREMIUM === */
 header {
     position: fixed;
     top: 0;
@@ -19,7 +19,28 @@ header.scrolled {
     backdrop-filter: blur(24px) saturate(1.8);
     -webkit-backdrop-filter: blur(24px) saturate(1.8);
     border-bottom: 1px solid rgba(233, 69, 96, 0.15);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.5), 
+        0 0 15px rgba(233, 69, 96, 0.05),
+        var(--shadow-inset-glass);
+}
+
+header.scrolled::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--purple), transparent);
+    opacity: 0.3;
+    animation: navBorderGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes navBorderGlow {
+    0% { opacity: 0.2; filter: blur(0px); }
+    50% { opacity: 0.5; filter: blur(1px); }
+    100% { opacity: 0.2; filter: blur(0px); }
 }
 
 .navbar {
@@ -259,7 +280,7 @@ header.scrolled {
     50% { opacity: 0; }
 }
 
-/* === COVER SECTION === */
+/* === COVER SECTION - PREMIUM === */
 .cover-section {
     position: relative;
     padding: 6rem 2rem;
@@ -278,6 +299,17 @@ header.scrolled {
     opacity: 0.3;
 }
 
+.cover-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--purple), var(--secondary), var(--primary), transparent);
+    opacity: 0.15;
+}
+
 .game-cover {
     width: 100%;
     max-width: 1000px;
@@ -287,10 +319,34 @@ header.scrolled {
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.6),
         0 0 40px var(--primary-glow),
-        0 0 80px rgba(233, 69, 96, 0.1);
+        0 0 80px rgba(233, 69, 96, 0.1),
+        var(--shadow-card-2d);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     border: 1px solid rgba(233, 69, 96, 0.1);
+}
+
+.game-cover::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: calc(var(--border-radius-lg) + 2px);
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--purple), var(--accent), var(--primary));
+    background-size: 400% 400%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: coverBorderNeon 4s linear infinite;
+}
+
+@keyframes coverBorderNeon {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.game-cover:hover::after {
+    opacity: 0.6;
 }
 
 .game-cover:hover {
@@ -298,7 +354,8 @@ header.scrolled {
     box-shadow: 
         0 30px 80px rgba(0, 0, 0, 0.7),
         0 0 60px var(--primary-glow),
-        0 0 120px rgba(233, 69, 96, 0.2);
+        0 0 120px rgba(233, 69, 96, 0.2),
+        0 0 60px rgba(0, 212, 255, 0.1);
     border-color: rgba(233, 69, 96, 0.3);
 }
 
@@ -325,47 +382,60 @@ header.scrolled {
     gap: 2rem;
 }
 
-/* Glassmorphism card premium */
+/* Glassmorphism card premium - multi-layer depth */
 .about-card {
     background: var(--bg-card-light);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
     padding: 2.8rem 2rem;
     border-radius: var(--border-radius-md);
-    border: 1px solid rgba(233, 69, 96, 0.15);
+    border: 1px solid rgba(233, 69, 96, 0.12);
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        var(--shadow-inset-glass),
+        var(--shadow-neon-multicolor);
 }
 
-/* Borda gradiente animada no hover */
+/* Animated neon gradient border - sempre visível sutilmente */
 .about-card::before {
     content: '';
     position: absolute;
     inset: -1px;
     border-radius: inherit;
-    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--purple), var(--primary));
-    background-size: 300% 300%;
+    background: linear-gradient(135deg, 
+        var(--primary), 
+        var(--secondary), 
+        var(--purple), 
+        var(--accent),
+        var(--primary)
+    );
+    background-size: 400% 400%;
     z-index: -1;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    animation: borderGlow 3s linear infinite;
+    opacity: 0.4;
+    transition: opacity 0.5s ease, filter 0.5s ease;
+    animation: borderGlow 4s linear infinite;
+    filter: blur(1px);
 }
 
 @keyframes borderGlow {
     0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    25% { background-position: 100% 0%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
     100% { background-position: 0% 50%; }
 }
 
 .about-card:hover::before {
     opacity: 1;
+    filter: blur(0px);
 }
 
-/* Inner glow overlay */
+/* Inner glow overlay c/ gradiente animado sutil */
 .about-card::after {
     content: '';
     position: absolute;
@@ -374,22 +444,34 @@ header.scrolled {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, 
-        rgba(233, 69, 96, 0.05) 0%, 
-        transparent 30%, 
-        rgba(0, 212, 255, 0.03) 60%,
-        rgba(168, 85, 247, 0.03) 100%
+        rgba(233, 69, 96, 0.06) 0%, 
+        transparent 25%, 
+        rgba(0, 212, 255, 0.04) 50%,
+        rgba(168, 85, 247, 0.04) 75%,
+        rgba(255, 215, 0, 0.02) 100%
     );
+    background-size: 200% 200%;
+    animation: innerGlowShift 8s ease-in-out infinite alternate;
     pointer-events: none;
     border-radius: inherit;
+}
+
+@keyframes innerGlowShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 
 .about-card:hover {
     transform: translateY(-12px) scale(1.02);
     box-shadow: 
-        0 24px 80px rgba(0, 0, 0, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 30px 80px rgba(0, 0, 0, 0.7),
         0 0 30px var(--primary-glow),
-        0 0 60px rgba(168, 85, 247, 0.1);
+        0 0 60px rgba(168, 85, 247, 0.15),
+        0 0 90px rgba(0, 212, 255, 0.08);
     background: var(--bg-card-hover);
+    border-color: rgba(233, 69, 96, 0.25);
 }
 
 .about-card h3 {
@@ -398,8 +480,8 @@ header.scrolled {
     position: relative;
     z-index: 1;
     color: var(--text-primary);
-    text-shadow: 0 0 30px rgba(233, 69, 96, 0.2);
-    letter-spacing: 1px;
+    text-shadow: 0 0 30px rgba(233, 69, 96, 0.2), 0 0 60px rgba(233, 69, 96, 0.1);
+    letter-spacing: var(--tracking-wide);
 }
 
 .about-card p {
@@ -435,8 +517,8 @@ header.scrolled {
 
 .feature {
     background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px) saturate(1.3);
+    -webkit-backdrop-filter: blur(12px) saturate(1.3);
     padding: 2.8rem 2rem;
     border-radius: var(--border-radius-md);
     text-align: center;
@@ -444,23 +526,36 @@ header.scrolled {
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        var(--shadow-neon-multicolor);
 }
 
+/* Neon border animado nas features */
 .feature::before {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--purple), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+        transparent 20%, 
+        var(--primary), 
+        var(--secondary), 
+        var(--purple), 
+        transparent 80%
+    );
+    background-size: 400% 400%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: featureBorderGlow 4s linear infinite;
 }
 
-.feature:hover::before {
-    transform: translateX(100%);
+@keyframes featureBorderGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .feature::after {
@@ -471,18 +566,35 @@ header.scrolled {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, 
-        rgba(233, 69, 96, 0.03) 0%, 
-        transparent 40%, 
-        rgba(0, 212, 255, 0.03) 100%
+        rgba(233, 69, 96, 0.04) 0%, 
+        transparent 35%, 
+        rgba(0, 212, 255, 0.03) 60%,
+        rgba(168, 85, 247, 0.03) 100%
     );
+    background-size: 200% 200%;
+    animation: featureGlowShift 6s ease-in-out infinite alternate;
     pointer-events: none;
+}
+
+@keyframes featureGlowShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 
 .feature:hover {
     transform: translateY(-10px) scale(1.02);
     border-color: rgba(233, 69, 96, 0.3);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--primary-glow);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 20px 50px rgba(0, 0, 0, 0.6),
+        0 0 30px var(--primary-glow),
+        0 0 60px rgba(168, 85, 247, 0.1);
     background: var(--bg-card-hover);
+}
+
+.feature:hover::before {
+    opacity: 1;
 }
 
 .feature h3 {
@@ -491,7 +603,8 @@ header.scrolled {
     color: var(--text-primary);
     position: relative;
     z-index: 1;
-    letter-spacing: 1px;
+    letter-spacing: var(--tracking-wide);
+    text-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
 }
 
 .feature p {
@@ -535,14 +648,39 @@ header.scrolled {
     border: 2px solid transparent;
     position: relative;
     filter: grayscale(0.4) brightness(0.7);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        var(--shadow-neon-multicolor);
+}
+
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: calc(var(--border-radius-md) + 2px);
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--purple), var(--accent));
+    background-size: 400% 400%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: borderGlow 3s linear infinite;
 }
 
 .gallery-item:hover {
     transform: scale(1.05);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px var(--primary-glow), 0 0 60px rgba(168, 85, 247, 0.1);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 20px 60px rgba(0, 0, 0, 0.7),
+        0 0 30px var(--primary-glow),
+        0 0 60px rgba(168, 85, 247, 0.1);
     border-color: var(--primary);
     filter: grayscale(0) brightness(1);
+}
+
+.gallery-item:hover::before {
+    opacity: 1;
 }
 
 /* === OVERLAY ESCURO PARA EXPANSÃO === */
