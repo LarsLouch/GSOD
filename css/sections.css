@@ -650,8 +650,8 @@ header.scrolled::after {
     filter: grayscale(0.4) brightness(0.7);
     box-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.2),
-        0 8px 24px rgba(0, 0, 0, 0.4),
-        var(--shadow-neon-multicolor);
+        0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 1;
 }
 
 .gallery-item::before {
@@ -665,6 +665,7 @@ header.scrolled::after {
     opacity: 0;
     transition: opacity 0.5s ease;
     animation: borderGlow 3s linear infinite;
+    pointer-events: none;
 }
 
 .gallery-item:hover {
