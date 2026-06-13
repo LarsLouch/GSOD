@@ -1,6 +1,6 @@
 /* ==========================================
    O ÚLTIMO BRASILEIRO - CSS Variables
-   Design System - Cores, Tipografia, Dimensões
+   Design System Premium - Cyberpunk Brasileiro
    ========================================== */
 
 :root {
@@ -11,39 +11,49 @@
     --primary-glow: rgba(233, 69, 96, 0.6);
     
     --secondary: #00d4ff;
-    --secondary-dark: #00a8cc;
+    --secondary-dark: #0099cc;
     --secondary-light: #66e3ff;
     --secondary-glow: rgba(0, 212, 255, 0.5);
     
     --accent: #ffd700;
     --accent-glow: rgba(255, 215, 0, 0.5);
     
+    /* Novas cores de destaque */
+    --purple: #a855f7;
+    --purple-glow: rgba(168, 85, 247, 0.4);
+    --green-neon: #22ff88;
+    --green-glow: rgba(34, 255, 136, 0.3);
+    
     /* Fundos */
     --bg-dark: #0a0a14;
     --bg-darker: #05050d;
-    --bg-card: rgba(18, 18, 35, 0.92);
-    --bg-glass: rgba(14, 14, 28, 0.75);
-    --bg-card-light: rgba(25, 25, 50, 0.92);
+    --bg-card: rgba(18, 18, 40, 0.85);
+    --bg-glass: rgba(12, 12, 30, 0.7);
+    --bg-card-light: rgba(22, 22, 48, 0.88);
+    --bg-card-hover: rgba(30, 30, 60, 0.92);
     
     /* Texto */
     --text-primary: #ffffff;
     --text-secondary: #b0b0c8;
     --text-muted: #6e6e8a;
     --text-card: #e8e8f0;
+    --text-glow: rgba(255, 255, 255, 0.1);
     
     /* Bordas & Sombras */
     --border-glow: rgba(233, 69, 96, 0.35);
-    --border-subtle: rgba(255, 255, 255, 0.1);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-neon: linear-gradient(135deg, var(--primary), var(--secondary), var(--purple));
     --shadow-card: 0 12px 48px rgba(0, 0, 0, 0.6);
-    --shadow-glow-primary: 0 0 20px rgba(233, 69, 96, 0.3);
-    --shadow-glow-secondary: 0 0 20px rgba(0, 212, 255, 0.3);
+    --shadow-glow-primary: 0 0 25px rgba(233, 69, 96, 0.3);
+    --shadow-glow-secondary: 0 0 25px rgba(0, 212, 255, 0.3);
+    --shadow-glow-purple: 0 0 25px rgba(168, 85, 247, 0.2);
     
     /* Dimensões */
     --nav-height: 72px;
     --border-radius-sm: 8px;
-    --border-radius-md: 14px;
-    --border-radius-lg: 22px;
-    --border-radius-xl: 30px;
+    --border-radius-md: 16px;
+    --border-radius-lg: 24px;
+    --border-radius-xl: 32px;
     
     /* Tipografia */
     --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;

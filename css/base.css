@@ -1,5 +1,5 @@
 /* ==========================================
-   O ÚLTIMO BRASILEIRO - Base & Reset
+   O ÚLTIMO BRASILEIRO - Base & Reset Premium
    ========================================== */
 
 /* === RESET === */
@@ -15,40 +15,75 @@ html {
     scrollbar-color: var(--primary) var(--bg-darker);
 }
 
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--bg-darker);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary);
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-darker); }
+::-webkit-scrollbar-thumb { 
+    background: var(--primary); 
     border-radius: 3px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-light);
-}
+::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
 
 body {
     font-family: var(--font-main);
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg-dark);
-    background-image: 
-        radial-gradient(ellipse at 20% 50%, rgba(233, 69, 96, 0.05) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
     min-height: 100vh;
     overflow-x: hidden;
     cursor: none;
+    position: relative;
 }
 
-body.scroll-lock {
-    overflow: hidden;
+/* Aurora background animado - efeito de outro mundo */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: 
+        radial-gradient(ellipse at 15% 10%, rgba(233, 69, 96, 0.04) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 15%, rgba(0, 212, 255, 0.04) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 90%, rgba(168, 85, 247, 0.03) 0%, transparent 45%),
+        radial-gradient(ellipse at 30% 60%, rgba(255, 215, 0, 0.02) 0%, transparent 40%),
+        radial-gradient(ellipse at 70% 40%, rgba(34, 255, 136, 0.02) 0%, transparent 40%);
+    animation: auroraShift 15s ease-in-out infinite alternate;
+    pointer-events: none;
 }
+
+@keyframes auroraShift {
+    0% { 
+        background-position: 0% 0%, 100% 0%, 50% 100%, 30% 60%, 70% 40%;
+        opacity: 1;
+    }
+    50% { 
+        opacity: 0.8;
+    }
+    100% { 
+        background-position: 10% 5%, 75% 10%, 40% 95%, 35% 55%, 65% 45%;
+        opacity: 1;
+    }
+}
+
+/* Grid pattern sutil cyberpunk */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+body.scroll-lock { overflow: hidden; }
 
 /* === PARTICLES CANVAS === */
 #particles-canvas {
@@ -73,7 +108,7 @@ body.scroll-lock {
 /* === TÍTULOS DE SEÇÃO === */
 .section-title {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
     position: relative;
 }
 
@@ -81,22 +116,38 @@ body.scroll-lock {
     font-size: 3rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--purple), var(--accent));
+    background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     display: inline-block;
+    animation: titleGradient 5s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 30px rgba(233, 69, 96, 0.2));
+}
+
+@keyframes titleGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .section-title .title-line {
     display: block;
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    margin: 1rem auto 0;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple), var(--primary));
+    background-size: 300% 100%;
+    margin: 1.2rem auto 0;
     border-radius: 2px;
     position: relative;
+    animation: titleLineShift 4s linear infinite;
+}
+
+@keyframes titleLineShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
 }
 
 .section-title .title-line::after {
@@ -106,15 +157,31 @@ body.scroll-lock {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    filter: blur(8px);
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
+    filter: blur(12px);
+    opacity: 0.7;
+}
+
+/* === DIVISORES ENTRE SEÇÕES === */
+.section-divider {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--primary) 15%, 
+        var(--secondary) 50%, 
+        var(--purple) 85%, 
+        transparent 100%
+    );
+    opacity: 0.3;
 }
 
 /* === FOOTER === */
 footer {
-    background: var(--bg-darker);
+    background: linear-gradient(180deg, transparent, var(--bg-darker));
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 4rem 2rem 3rem;
     border-top: 1px solid var(--border-subtle);
     position: relative;
     z-index: 1;
@@ -127,7 +194,7 @@ footer::before {
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--purple), transparent);
 }
 
 footer p {

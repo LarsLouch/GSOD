@@ -1,6 +1,6 @@
 /* ==========================================
    GALLERY LIGHTBOX - Galeria com expansão toggle
-   Clique na imagem para expandir, clique novamente para fechar
+   Clique na imagem para expandir centralizada, clique novamente ou fora para fechar
    ========================================== */
 
 export class GalleryLightbox {
@@ -9,6 +9,7 @@ export class GalleryLightbox {
         if (this.items.length === 0) return;
         
         this.expandedItem = null;
+        this.overlay = null;
         
         this.init();
     }
@@ -16,19 +17,13 @@ export class GalleryLightbox {
     init() {
         this.items.forEach((item) => {
             item.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 this.toggleExpand(item);
             });
         });
 
-        // Click fora para fechar
-        document.addEventListener('click', (e) => {
-            if (this.expandedItem && !this.expandedItem.contains(e.target)) {
-                this.collapse();
-            }
-        });
-
-        // Tecla ESC para fechar
+        // Fechar com ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.expandedItem) {
                 this.collapse();
@@ -45,21 +40,44 @@ export class GalleryLightbox {
     }
 
     expand(item) {
-        // Fecha qualquer item já expandido
+        // Fechar expansão anterior se houver
         if (this.expandedItem) {
-            this.expandedItem.classList.remove('expanded');
+            this.collapse();
         }
-        
+
+        // Criar overlay escuro
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'gallery-overlay';
+        this.overlay.addEventListener('click', () => this.collapse());
+        document.body.appendChild(this.overlay);
+
+        // Pequeno delay para o overlay aparecer antes da imagem
+        requestAnimationFrame(() => {
+            this.overlay.classList.add('active');
+        });
+
+        // Expandir imagem
         item.classList.add('expanded');
         this.expandedItem = item;
-        document.body.style.overflow = 'hidden';
+        document.body.classList.add('scroll-lock');
     }
 
     collapse() {
-        if (this.expandedItem) {
-            this.expandedItem.classList.remove('expanded');
-            this.expandedItem = null;
-            document.body.style.overflow = '';
+        if (!this.expandedItem) return;
+
+        this.expandedItem.classList.remove('expanded');
+        
+        if (this.overlay) {
+            this.overlay.classList.remove('active');
+            setTimeout(() => {
+                if (this.overlay && this.overlay.parentNode) {
+                    document.body.removeChild(this.overlay);
+                }
+                this.overlay = null;
+            }, 300);
         }
+
+        document.body.classList.remove('scroll-lock');
+        this.expandedItem = null;
     }
 }
