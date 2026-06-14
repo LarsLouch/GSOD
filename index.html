@@ -364,10 +364,64 @@
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 O Último Brasileiro. Todos os direitos reservados.</p>
-    </footer>
+<footer>
+    <p>&copy; 2024 O Último Brasileiro. Todos os direitos reservados.</p>
+    <div class="audio-toggle" id="audio-toggle">
+        <button aria-label="Toggle background music" id="audio-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                <path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path>
+                <path d="M19 7v10"></path>
+            </svg>
+            <span class="audio-label">Som</span>
+        </button>
+    </div>
+</footer>
 
-    <script type="module" src="script.js"></script>
+<audio id="background-audio" loop>
+    <source src="sounds/ambient-loop.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+</audio>
+
+<script type="module" src="script.js"></script>
+<script>
+    // Audio toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('background-audio');
+        const audioBtn = document.getElementById('audio-btn');
+        const audioToggle = document.getElementById('audio-toggle');
+        
+        // Check if user has previously muted audio
+        const isMuted = localStorage.getItem('audioMuted') === 'true';
+        if (isMuted) {
+            audio.muted = true;
+            audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19 7v10"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+            audioToggle.classList.add('muted');
+        }
+        
+        // Play audio on load (desktop)
+        if (!isMuted && !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            audio.play().catch(e => {
+                // Audio autoplay failed, likely due to browser policy
+                // User will need to click the button to play
+            });
+        }
+        
+        // Toggle audio on button click
+        audioBtn.addEventListener('click', function() {
+            audio.muted = !audio.muted;
+            
+            if (audio.muted) {
+                audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19 7v10"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+                audioToggle.classList.add('muted');
+                localStorage.setItem('audioMuted', 'true');
+            } else {
+                audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><path d="M19 7v10"></path></svg>';
+                audioToggle.classList.remove('muted');
+                localStorage.setItem('audioMuted', 'false');
+            }
+        });
+    });
+</script>
 </body>
 </html>
