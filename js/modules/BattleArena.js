@@ -52,18 +52,11 @@ export class BattleArena {
             }
         };
 
-        // Mapeamento: cada personagem encontra cada inimigo
-        // personagemIndex 0=Juiz,1=Coveiro,2=Metalurgico
-        // enemyIndex 0=Besta,1=Golen,2=Poluido
+        // Mapeamento fixo: cada personagem enfrenta seu inimigo específico
+        // Juiz(0) vs Besta(0), Coveiro(1) vs Golen(1), Metalurgico(2) vs Poluido(2)
         this.matches = [
             [0, 0], // Juiz vs Besta
-            [0, 1], // Juiz vs Golen
-            [0, 2], // Juiz vs Poluido
-            [1, 0], // Coveiro vs Besta
             [1, 1], // Coveiro vs Golen
-            [1, 2], // Coveiro vs Poluido
-            [2, 0], // Metalurgico vs Besta
-            [2, 1], // Metalurgico vs Golen
             [2, 2]  // Metalurgico vs Poluido
         ];
 
@@ -135,38 +128,24 @@ export class BattleArena {
 
     selectCharacter(charIndex) {
         if (this.isAnimating) return;
-        // Muda o personagem mantendo o inimigo atual
-        // Encontra um match com o personagem escolhido e o inimigo atual
-        const enemyIdx = this.currentEnemy;
-        const matchIdx = this.matches.findIndex(m => m[0] === charIndex && m[1] === enemyIdx);
-        if (matchIdx >= 0) {
-            this.currentCharacter = charIndex;
-            this.setupMatch(matchIdx);
+        // Cada personagem tem seu inimigo fixo no mesmo índice (0=Besta, 1=Golen, 2=Poluido)
+        if (charIndex >= 0 && charIndex < this.matches.length) {
+            this.setupMatch(charIndex);
         }
     }
 
     prevCharacter() {
         if (this.isAnimating) return;
-        // Vai para o personagem anterior (cíclico: 0->2, 1->0, 2->1)
-        const newChar = ((this.currentCharacter - 1) + 3) % 3;
-        this.currentCharacter = newChar;
-        const enemyIdx = this.currentEnemy;
-        const matchIdx = this.matches.findIndex(m => m[0] === newChar && m[1] === enemyIdx);
-        if (matchIdx >= 0) {
-            this.setupMatch(matchIdx);
-        }
+        // Vai para o personagem anterior (cíclico)
+        const prev = ((this.currentCharacter - 1) + 3) % 3;
+        this.setupMatch(prev);
     }
 
     nextCharacter() {
         if (this.isAnimating) return;
         // Vai para o próximo personagem (cíclico)
-        const newChar = (this.currentCharacter + 1) % 3;
-        this.currentCharacter = newChar;
-        const enemyIdx = this.currentEnemy;
-        const matchIdx = this.matches.findIndex(m => m[0] === newChar && m[1] === enemyIdx);
-        if (matchIdx >= 0) {
-            this.setupMatch(matchIdx);
-        }
+        const next = (this.currentCharacter + 1) % 3;
+        this.setupMatch(next);
     }
 
     setupMatch(matchIndex) {

@@ -157,26 +157,74 @@
             </div>
         </section>
 
-        <!-- GALERIA -->
+        <!-- GALERIA - CARROSSEL AUTOMÁTICO -->
         <section id="galeria" class="gallery">
             <div class="container">
                 <div class="section-title reveal">
                     <h2>Galeria de Imagens</h2>
                     <span class="title-line"></span>
                 </div>
-                <div class="gallery-grid">
-                    <img src="imagens/prints/captura1.png" alt="Captura do Jogo 1" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura2.png" alt="Captura do Jogo 2" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura3.png" alt="Captura do Jogo 3" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura4.png" alt="Captura do Jogo 4" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura5.png" alt="Captura do Jogo 5" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura6.png" alt="Captura do Jogo 6" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura7.png" alt="Captura do Jogo 7" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura8.png" alt="Captura do Jogo 8" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura9.png" alt="Captura do Jogo 9" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura10.png" alt="Captura do Jogo 10" class="gallery-item reveal reveal-scale" loading="lazy">
-                    <img src="imagens/prints/captura11.png" alt="Captura do Jogo 11" class="gallery-item reveal reveal-scale" loading="lazy">
+                
+                <!-- Carrossel -->
+                <div class="carousel reveal">
+                    <div class="carousel-track">
+                        <div class="carousel-slide active">
+                            <img src="imagens/prints/captura1.png" alt="Captura do Jogo 1" loading="eager">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura2.png" alt="Captura do Jogo 2" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura3.png" alt="Captura do Jogo 3" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura4.png" alt="Captura do Jogo 4" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura5.png" alt="Captura do Jogo 5" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura6.png" alt="Captura do Jogo 6" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura7.png" alt="Captura do Jogo 7" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura8.png" alt="Captura do Jogo 8" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura9.png" alt="Captura do Jogo 9" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura10.png" alt="Captura do Jogo 10" loading="lazy">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="imagens/prints/captura11.png" alt="Captura do Jogo 11" loading="lazy">
+                        </div>
+                    </div>
+
+                    <!-- Botões de navegação -->
+                    <button class="carousel-btn carousel-btn-prev" aria-label="Imagem anterior">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button class="carousel-btn carousel-btn-next" aria-label="Próxima imagem">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <!-- Contador -->
+                    <div class="carousel-counter">
+                        <span class="carousel-current">1</span>
+                        <span style="opacity:0.5"> / </span>
+                        <span class="carousel-total">11</span>
+                    </div>
                 </div>
+
+                <!-- Indicadores (dots) -->
+                <div class="carousel-dots"></div>
             </div>
         </section>
 
