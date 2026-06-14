@@ -45,6 +45,7 @@
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="#jogabilidade">Jogabilidade</a></li>
                 <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#batalha">Batalha</a></li>
                 <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
@@ -175,6 +176,81 @@
                     <img src="imagens/prints/captura9.png" alt="Captura do Jogo 9" class="gallery-item reveal reveal-scale" loading="lazy">
                     <img src="imagens/prints/captura10.png" alt="Captura do Jogo 10" class="gallery-item reveal reveal-scale" loading="lazy">
                     <img src="imagens/prints/captura11.png" alt="Captura do Jogo 11" class="gallery-item reveal reveal-scale" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- BATALHA - Arena de Combate -->
+        <section id="batalha" class="battle-arena">
+            <div class="container">
+                <div class="section-title reveal">
+                    <h2>Arena de Batalha</h2>
+                    <span class="title-line"></span>
+                </div>
+                
+                <!-- Seletor de Personagens -->
+                <div class="character-selector reveal">
+                    <button class="battle-btn battle-btn-prev" aria-label="Personagem anterior">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    
+                    <div class="selector-title">
+                        <h3 class="battle-title">JUIZ</h3>
+                        <span class="battle-subtitle">VS BESTA</span>
+                    </div>
+                    
+                    <button class="battle-btn battle-btn-next" aria-label="Próximo personagem">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Indicadores de Personagem -->
+                <div class="char-indicators reveal">
+                    <span class="char-indicator btn-char-0 active" data-char="0">JUIZ</span>
+                    <span class="char-indicator btn-char-1" data-char="1">COVEIRO</span>
+                    <span class="char-indicator btn-char-2" data-char="2">METALÚRGICO</span>
+                </div>
+
+                <!-- Palco da Batalha -->
+                <div class="battle-arena-stage reveal">
+                    <!-- Impacto -->
+                    <div class="battle-impact"></div>
+                    
+                    <!-- Chão da arena -->
+                    <div class="arena-floor"></div>
+                    
+                    <!-- Personagem (esquerda) -->
+                    <div class="fighter-container character-container position-start">
+                        <div class="fighter-info character">
+                            <span class="fighter-label">HERÓI</span>
+                            <span class="fighter-name">JUIZ</span>
+                        </div>
+                        <div class="health-bar character">
+                            <div class="health-fill" style="width:100%"></div>
+                        </div>
+                        <img class="fighter-sprite character" src="imagens/personagens/Juiz/walk0.png" alt="Personagem" draggable="false">
+                    </div>
+                    
+                    <!-- VS Divider -->
+                    <div class="vs-divider">
+                        <span>VS</span>
+                    </div>
+                    
+                    <!-- Inimigo (direita) -->
+                    <div class="fighter-container enemy-container position-start">
+                        <div class="fighter-info enemy">
+                            <span class="fighter-label">INIMIGO</span>
+                            <span class="fighter-name">BESTA</span>
+                        </div>
+                        <div class="health-bar enemy">
+                            <div class="health-fill" style="width:100%"></div>
+                        </div>
+                        <img class="fighter-sprite enemy" src="imagens/inimigos/Besta/BestaWalk0.png" alt="Inimigo" draggable="false">
+                    </div>
                 </div>
             </div>
         </section>

@@ -984,6 +984,482 @@ header.scrolled::after {
     }
 }
 
+/* =============================================
+   ARENA DE BATALHA - Seção de Combate Animado
+   ============================================= */
+.battle-arena {
+    position: relative;
+    background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(10, 5, 20, 0.9) 50%, var(--bg-darker) 100%);
+    overflow: hidden;
+}
+
+.battle-arena::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--purple), transparent);
+    opacity: 0.2;
+}
+
+/* Seletor de Personagens */
+.character-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.selector-title {
+    text-align: center;
+    min-width: 280px;
+}
+
+.battle-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    margin: 0;
+    line-height: 1.2;
+    transition: opacity 0.3s ease;
+    filter: drop-shadow(0 0 30px rgba(233, 69, 96, 0.3));
+}
+
+.battle-subtitle {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--secondary);
+    text-shadow: 0 0 20px var(--secondary-glow);
+    margin-top: 0.3rem;
+    transition: opacity 0.3s ease;
+}
+
+/* Botões do seletor */
+.battle-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+}
+
+.battle-btn:hover {
+    background: rgba(233, 69, 96, 0.2);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--primary-glow), 0 0 40px rgba(233, 69, 96, 0.1);
+    transform: scale(1.15);
+}
+
+.battle-btn:active {
+    transform: scale(0.9);
+}
+
+/* Indicadores de personagem */
+.char-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.char-indicator {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.char-indicator.active {
+    background: rgba(233, 69, 96, 0.15);
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 0 15px rgba(233, 69, 96, 0.15);
+    text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.char-indicator:hover {
+    border-color: rgba(233, 69, 96, 0.3);
+    color: var(--text-primary);
+}
+
+/* Palco da Batalha */
+.battle-arena-stage {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 420px;
+    margin: 0 auto;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    background: linear-gradient(180deg, 
+        rgba(15, 10, 30, 0.95) 0%, 
+        rgba(20, 15, 35, 0.9) 60%, 
+        rgba(10, 8, 20, 0.95) 100%
+    );
+    border: 1px solid rgba(233, 69, 96, 0.1);
+    box-shadow: 
+        0 0 40px rgba(0, 0, 0, 0.4),
+        inset 0 0 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Chão da arena */
+.arena-floor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(180deg, 
+        rgba(233, 69, 96, 0.05) 0%, 
+        rgba(168, 85, 247, 0.03) 50%,
+        transparent 100%
+    );
+    border-top: 1px solid rgba(233, 69, 96, 0.08);
+}
+
+.arena-floor::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary), 
+        var(--secondary), 
+        var(--purple), 
+        transparent
+    );
+    opacity: 0.15;
+    animation: floorGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes floorGlow {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 0.1; }
+}
+
+/* Impacto */
+.battle-impact {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--primary), var(--secondary), transparent);
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+    transition: none;
+}
+
+.battle-impact.active {
+    animation: impactFlash 0.4s ease-out forwards;
+}
+
+@keyframes impactFlash {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0.8;
+    }
+    50% {
+        width: 200px;
+        height: 200px;
+        opacity: 0.5;
+    }
+    100% {
+        width: 400px;
+        height: 400px;
+        opacity: 0;
+    }
+}
+
+/* Shake na tela */
+.battle-arena-stage.shaking {
+    animation: arenaShake 0.4s ease-in-out;
+}
+
+@keyframes arenaShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px) rotate(-0.5deg); }
+    40% { transform: translateX(6px) rotate(0.5deg); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+/* VS Divider */
+.vs-divider {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.vs-divider span {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--primary);
+    text-shadow: 
+        0 0 20px var(--primary-glow),
+        0 0 40px rgba(233, 69, 96, 0.3);
+    opacity: 0.6;
+}
+
+/* Containers dos lutadores */
+.fighter-container {
+    position: absolute;
+    bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.character-container {
+    left: 5%;
+}
+
+.enemy-container {
+    right: 5%;
+}
+
+/* Posições de caminhada */
+.character-container.walking {
+    left: 30%;
+    transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.enemy-container.walking {
+    right: 30%;
+    transition: right 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Posição de encontro (meio) */
+.character-container.meet {
+    left: 35%;
+    transition: left 0.3s ease;
+}
+
+.enemy-container.meet {
+    right: 35%;
+    transition: right 0.3s ease;
+}
+
+/* Posição de knockback (volta) */
+.character-container.knockback {
+    left: 2%;
+    transition: left 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.enemy-container.knockback {
+    right: 2%;
+    transition: right 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.character-container.position-start {
+    left: 5%;
+}
+
+.enemy-container.position-start {
+    right: 5%;
+}
+
+/* Info dos lutadores */
+.fighter-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.fighter-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.fighter-name {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.fighter-info.character .fighter-name {
+    color: var(--secondary);
+}
+
+.fighter-info.enemy .fighter-name {
+    color: var(--primary);
+}
+
+/* Health Bars */
+.health-bar {
+    width: 120px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.health-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.health-bar.character .health-fill {
+    background: linear-gradient(90deg, var(--secondary), var(--secondary-light));
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+}
+
+.health-bar.enemy .health-fill {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    box-shadow: 0 0 8px rgba(233, 69, 96, 0.3);
+}
+
+/* Sprite dos lutadores */
+.fighter-sprite {
+    width: auto;
+    height: 180px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: transform 0.3s ease;
+}
+
+/* Animação de ataque - treme o sprite */
+.character-container.attacking .fighter-sprite {
+    animation: charAttackAnim 0.15s ease-in-out 3;
+}
+
+.enemy-container.attacking .fighter-sprite {
+    animation: enemyAttackAnim 0.15s ease-in-out 3;
+}
+
+@keyframes charAttackAnim {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    50% { transform: translateX(8px) rotate(3deg); }
+}
+
+@keyframes enemyAttackAnim {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    50% { transform: translateX(-8px) rotate(-3deg); }
+}
+
+/* === RESPONSIVO - ARENA === */
+@media (max-width: 768px) {
+    .battle-arena-stage {
+        height: 320px;
+    }
+    
+    .battle-title {
+        font-size: 2rem;
+        letter-spacing: 5px;
+    }
+    
+    .battle-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .selector-title {
+        min-width: 200px;
+    }
+    
+    .fighter-sprite {
+        height: 130px;
+    }
+    
+    .vs-divider span {
+        font-size: 1.3rem;
+    }
+    
+    .health-bar {
+        width: 90px;
+    }
+}
+
+@media (max-width: 480px) {
+    .battle-arena-stage {
+        height: 260px;
+    }
+    
+    .battle-title {
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+    }
+    
+    .character-selector {
+        gap: 0.8rem;
+    }
+    
+    .selector-title {
+        min-width: 150px;
+    }
+    
+    .fighter-sprite {
+        height: 100px;
+    }
+    
+    .char-indicator {
+        font-size: 0.6rem;
+        padding: 4px 10px;
+    }
+    
+    .battle-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .battle-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
 /* === CONTATO === */
 .contact {
     position: relative;

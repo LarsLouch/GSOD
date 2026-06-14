@@ -14,6 +14,7 @@ import { AnimatedCounter } from './js/modules/AnimatedCounter.js';
 import { NavbarScroll } from './js/modules/NavbarScroll.js';
 import { ParallaxEffect } from './js/modules/ParallaxEffect.js';
 import { GalleryLightbox } from './js/modules/GalleryLightbox.js';
+import { BattleArena } from './js/modules/BattleArena.js';
 import { SmoothScroll } from './js/modules/SmoothScroll.js';
 import { ContactForm } from './js/modules/ContactForm.js';
 import { CTAAction } from './js/modules/CTAAction.js';
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new NavbarScroll();
     new ParallaxEffect();
     new GalleryLightbox();
+    new BattleArena();
     new SmoothScroll();
     new ContactForm();
     new CTAAction();
