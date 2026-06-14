@@ -684,7 +684,9 @@ header.scrolled::after {
     opacity: 1;
 }
 
-/* === OVERLAY ESCURO PARA EXPANSÃO === */
+/* =============================================
+   OVERLAY CINEMATOGRÁFICO C/ EFEITO PORTAL
+   ============================================= */
 .gallery-overlay {
     position: fixed;
     top: 0;
@@ -692,20 +694,36 @@ header.scrolled::after {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px) brightness(1);
+    -webkit-backdrop-filter: blur(0px) brightness(1);
     z-index: 2999;
-    transition: all 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
 }
 
 .gallery-overlay.active {
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(16px) brightness(0.6);
+    -webkit-backdrop-filter: blur(16px) brightness(0.6);
     pointer-events: auto;
 }
 
+/* Efeito de vignette radial no overlay */
+.gallery-overlay.active::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* =============================================
+   IMAGEM EXPANDIDA - Efeito Portal Dimensional
+   ============================================= */
 .gallery-item.expanded {
     position: fixed !important;
     top: 50% !important;
@@ -720,28 +738,250 @@ header.scrolled::after {
     border-width: 3px;
     box-shadow: 
         0 20px 80px rgba(0, 0, 0, 0.8),
-        0 0 60px var(--primary-glow),
-        0 0 100px rgba(168, 85, 247, 0.15);
-    filter: grayscale(0) brightness(1.05);
+        0 0 40px var(--primary-glow),
+        0 0 80px rgba(233, 69, 96, 0.15),
+        0 0 120px rgba(168, 85, 247, 0.1),
+        inset 0 0 60px rgba(0, 212, 255, 0.05);
+    filter: grayscale(0) brightness(1.1) saturate(1.1);
     border-radius: var(--border-radius-md);
     cursor: zoom-out;
     object-fit: contain;
     pointer-events: auto;
     background: var(--bg-darker);
-    animation: galleryExpand 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: portalEnter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+               expandedGlow 3s ease-in-out 0.5s infinite;
 }
 
 .gallery-item.expanded::before {
     opacity: 0 !important;
 }
 
-@keyframes galleryExpand {
-    0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.3; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+/* Borda neon pulsante na imagem expandida */
+.gallery-item.expanded::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    transform: translate(-50%, -50%);
+    border-radius: calc(var(--border-radius-md) + 4px);
+    background: linear-gradient(135deg, 
+        var(--primary), var(--secondary), var(--purple), var(--accent), 
+        var(--primary), var(--secondary), var(--purple)
+    );
+    background-size: 600% 600%;
+    z-index: -1;
+    opacity: 0.6;
+    animation: expandedBorderPulse 3s ease-in-out infinite;
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+@keyframes expandedBorderPulse {
+    0% { background-position: 0% 50%; opacity: 0.4; filter: blur(2px); }
+    25% { background-position: 100% 0%; opacity: 0.7; filter: blur(1px); }
+    50% { background-position: 100% 100%; opacity: 0.5; filter: blur(3px); }
+    75% { background-position: 0% 100%; opacity: 0.8; filter: blur(1px); }
+    100% { background-position: 0% 50%; opacity: 0.4; filter: blur(2px); }
+}
+
+/* Animação de entrada - efeito warp/portal */
+@keyframes portalEnter {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3) rotateZ(5deg);
+        opacity: 0;
+        filter: grayscale(1) brightness(0.3) blur(8px);
+        border-color: transparent;
+        box-shadow: none;
+    }
+    40% {
+        transform: translate(-50%, -50%) scale(1.1) rotateZ(-1deg);
+        opacity: 1;
+        filter: grayscale(0.3) brightness(0.8) blur(2px);
+        border-color: var(--secondary);
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(0.95) rotateZ(0.5deg);
+        filter: grayscale(0) brightness(1.1) blur(0px);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotateZ(0deg);
+        opacity: 1;
+        filter: grayscale(0) brightness(1.1) saturate(1.1);
+        border-color: var(--primary);
+    }
+}
+
+/* Animação de saída */
+.gallery-item.expanded.collapsing {
+    animation: portalExit 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+@keyframes portalExit {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotateZ(0deg);
+        opacity: 1;
+        filter: grayscale(0) brightness(1.1);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.2) rotateZ(-10deg);
+        opacity: 0;
+        filter: grayscale(1) brightness(0.2) blur(12px);
+    }
 }
 
 .gallery-item.expanded:hover {
     transform: translate(-50%, -50%) scale(1) !important;
+}
+
+@keyframes expandedGlow {
+    0%, 100% { box-shadow: 
+        0 20px 80px rgba(0, 0, 0, 0.8),
+        0 0 40px var(--primary-glow),
+        0 0 80px rgba(233, 69, 96, 0.15),
+        0 0 120px rgba(168, 85, 247, 0.1);
+    }
+    50% { box-shadow: 
+        0 20px 80px rgba(0, 0, 0, 0.8),
+        0 0 60px var(--primary-glow),
+        0 0 100px rgba(233, 69, 96, 0.25),
+        0 0 140px rgba(168, 85, 247, 0.2),
+        0 0 60px rgba(0, 212, 255, 0.1);
+    }
+}
+
+/* =============================================
+   LEGENDA DA IMAGEM
+   ============================================= */
+.gallery-caption {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 3001;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 12px 28px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    border-radius: 50px;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    max-width: 80vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gallery-caption.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* =============================================
+   NAVEGAÇÃO - ANTERIOR / PRÓXIMA
+   ============================================= */
+.gallery-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%) scale(0.8);
+    z-index: 3001;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(233, 69, 96, 0.2);
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+.gallery-nav.active {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+    pointer-events: auto;
+}
+
+.gallery-nav:hover {
+    background: rgba(233, 69, 96, 0.25);
+    border-color: var(--primary);
+    box-shadow: 0 0 30px var(--primary-glow), 0 0 60px rgba(233, 69, 96, 0.15);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.gallery-nav:active {
+    transform: translateY(-50%) scale(0.9);
+}
+
+.gallery-nav-prev {
+    left: 24px;
+}
+
+.gallery-nav-next {
+    right: 24px;
+}
+
+.gallery-nav.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-50%) scale(0.5) !important;
+}
+
+.gallery-nav svg {
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 0 8px rgba(233, 69, 96, 0.4));
+}
+
+/* =============================================
+   PARTÍCULAS DA GALERIA - Efeito Dimensional
+   ============================================= */
+.gallery-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3002;
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+    transition: none;
+}
+
+.gallery-particle.active {
+    animation: particleBurst 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes particleBurst {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0);
+    }
+    20% {
+        opacity: 1;
+        transform: translate(calc(var(--dx) * 0.3), calc(var(--dy) * 0.3)) scale(1);
+    }
+    60% {
+        opacity: 1;
+        transform: translate(calc(var(--dx) * 0.8), calc(var(--dy) * 0.8)) scale(0.7);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0);
+    }
 }
 
 /* === CONTATO === */
