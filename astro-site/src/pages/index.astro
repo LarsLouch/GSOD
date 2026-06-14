@@ -1,0 +1,744 @@
+---
+import '../styles/base.css';
+import '../styles/components.css';
+import '../styles/sections.css';
+import '../styles/responsive.css';
+import '../styles/effects-premium.css';
+import '../styles/variables.css';
+
+// Import scripts
+import '../scripts/CustomCursor.js';
+import '../scripts/TypingEffect.js';
+import '../scripts/ScrollReveal.js';
+import '../scripts/AnimatedCounter.js';
+import '../scripts/NavbarScroll.js';
+import '../scripts/ParallaxEffect.js';
+import '../scripts/SmoothScroll.js';
+import '../scripts/ContactForm.js';
+import '../scripts/CTAAction.js';
+import '../scripts/ParticleSystem.js';
+import '../scripts/HeroParticles.js';
+import '../scripts/MouseGlow.js';
+import '../scripts/CardTilt3D.js';
+import '../scripts/GalleryLightbox.js';
+import '../scripts/GalleryCarousel.js';
+import '../scripts/BattleArena.js';
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O Último Brasileiro</title>
+  <link rel="icon" type="image/png" href="/images/icons/icon512x512.png">
+  
+  <!-- GSAP and ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" async></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" async></script>
+  
+  <!-- Splide.js for gallery upgrade -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" async></script>
+  
+  <!-- Premium fonts from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Cursor Personalizado -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  
+  <!-- Overlays Cinematográficos -->
+  <div class="scanlines-overlay"></div>
+  <div class="vignette-overlay"></div>
+  <div class="starfield"></div>
+  
+  <!-- Esferas Flutuantes -->
+  <div class="floating-orb"></div>
+  <div class="floating-orb"></div>
+  <div class="floating-orb"></div>
+  <div class="floating-orb"></div>
+  
+  <!-- Canvas de Partículas -->
+  <canvas id="particles-canvas"></canvas>
+  
+  <!-- Header / Navbar -->
+  <header>
+    <nav class="navbar">
+      <a href="#home" class="logo">
+        <img src="/images/icons/icon512x512.png" alt="Ícone do Jogo" class="logo-icon">
+        <h1>O Último Brasileiro</h1>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#home">Início</a></li>
+        <li><a href="#capa">Capa</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#jogabilidade">Jogabilidade</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#batalha">Batalha</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+      <div class="hero-background">
+        <img src="/images/capas/fundo1438x810.png" alt="Fundo do Jogo" class="hero-bg">
+      </div>
+      <div class="hero-particles" id="hero-particles"></div>
+      <div class="hero-light-rays"></div>
+      <div class="hero-content">
+        <img src="/images/capas/titulo1280x720.png" alt="O Último Brasileiro" class="hero-title">
+        <div class="typing-container">
+          <span class="typing-text" id="typing-text"></span>
+          <span class="typing-cursor"></span>
+        </div>
+        <button class="cta-button"><span>Jogar Agora</span></button>
+      </div>
+      <div class="scroll-indicator">
+        <span>Role para explorar</span>
+        <div class="mouse"></div>
+      </div>
+    </section>
+    
+    <!-- COVER SECTION -->
+    <section id="capa" class="cover-section">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Capa Oficial</h2>
+          <span class="title-line"></span>
+        </div>
+        <img src="/images/capas/capa1232x706.png" alt="Capa do Jogo O Último Brasileiro" class="game-cover reveal reveal-scale">
+      </div>
+    </section>
+    
+    <!-- SOBRE SECTION -->
+    <section id="sobre" class="about">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Sobre o Jogo</h2>
+          <span class="title-line"></span>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-container reveal">
+          <div class="stat-item">
+            <span class="stat-number" data-target="7">0</span>
+            <span class="stat-label">Estados + DF</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="100">0</span>
+            <span class="stat-label">+ Inimigos Nacionais</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="300">0</span>
+            <span class="stat-label">+ Animações</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="100">0</span>
+            <span class="stat-label">+ Horas de Jogo</span>
+          </div>
+        </div>
+        
+        <div class="about-grid">
+          <div class="about-card reveal reveal-left stagger-1">
+            <h3>🏛️ A Crise Final</h3>
+            <p>O Brasil como conhecemos colapsou em um pós-apocalipse distópico. Agora, figuras lendárias e caricatas lutam pelo controle das ruínas da nação. Sua missão? Sobreviver ao caos e descobrir quem restou para contar história.</p>
+          </div>
+          <div class="about-card reveal stagger-2">
+            <h3>⚔️ Porrada Políticamente Incorreta</h3>
+            <p>Enfrente criaturas bizarras, mutantes e chefões implacáveis inspirados no cenário nacional. Use ataques especiais devastadores e combos aéreos dinâmicos para limpar o seu caminho.</p>
+          </div>
+          <div class="about-card reveal reveal-right stagger-3">
+            <h3>🎭 Três Heróis, Três Estilos</h3>
+            <p>Escolha entre 3 personagens jogáveis totalmente diferentes. Cada um possui suas próprias mecânicas de movimentação, habilidades únicas e árvores de habilidades para triturar os inimigos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- GAMEPLAY SECTION -->
+    <section id="jogabilidade" class="gameplay">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Características</h2>
+          <span class="title-line"></span>
+        </div>
+        <div class="features">
+          <div class="feature reveal reveal-scale stagger-1">
+            <h3>🗺️ Do Oiapoque ao Chuí</h3>
+            <p>Explore fases desafiadoras ambientadas em versões pós-apocalípticas dos estados brasileiros. Atravesse o Planalto Central, selvas perigosas e ruínas urbanas cheias de segredos e referências.</p>
+          </div>
+          <div class="feature reveal reveal-scale stagger-2">
+            <h3>🕹️ Ação Plataforma Pura</h3>
+            <p>Sinta o controle total com uma física de pulo precisa, esquivas milimétricas e um combate de ritmo acelerado feito sob medida para quem ama os clássicos do gênero.</p>
+          </div>
+          <div class="feature reveal reveal-scale stagger-3">
+            <h3>🦜 Puro Suco de Brasil</h3>
+            <p>Divirta-se com uma narrativa ácida recheada de memes, sátiras sociais e piadas internas que só quem vive no Brasil vai entender de verdade.</p>
+          </div>
+          <div class="feature reveal reveal-scale stagger-4">
+            <h3>🗣️ Figuras Carimbadas</h3>
+            <p>Interaja com sobreviventes excêntricos pelo caminho, aceite missões bizarras e descubra segredos hilários escondidos pelos cantos mais profundos do mapa.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- GALERIA - CARROSSEL AUTOMÁTICO -->
+    <section id="galeria" class="gallery">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Galeria de Imagens</h2>
+          <span class="title-line"></span>
+        </div>
+        
+        <!-- Carrossel -->
+        <div id="gallery-splide" class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <li class="splide__slide">
+                <img src="/images/prints/captura1.png" alt="Captura do Jogo 1" loading="eager">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura2.png" alt="Captura do Jogo 2" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura3.png" alt="Captura do Jogo 3" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura4.png" alt="Captura do Jogo 4" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura5.png" alt="Captura do Jogo 5" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura6.png" alt="Captura do Jogo 6" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura7.png" alt="Captura do Jogo 7" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura8.png" alt="Captura do Jogo 8" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura9.png" alt="Captura do Jogo 9" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura10.png" alt="Captura do Jogo 10" loading="lazy">
+              </li>
+              <li class="splide__slide">
+                <img src="/images/prints/captura11.png" alt="Captura do Jogo 11" loading="lazy">
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Botões de navegação -->
+        <button class="carousel-btn carousel-btn-prev" aria-label="Imagem anterior">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="carousel-btn carousel-btn-next" aria-label="Próxima imagem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        
+        <!-- Contador -->
+        <div class="carousel-counter">
+          <span class="carousel-current">1</span>
+          <span style="opacity:0.5"> / </span>
+          <span class="carousel-total">11</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- BATALHA - Arena de Combate -->
+    <section id="batalha" class="battle-arena">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Arena de Batalha</h2>
+          <span class="title-line"></span>
+        </div>
+        
+        <!-- Seletor de Personagens -->
+        <div class="character-selector reveal">
+          <button class="battle-btn battle-btn-prev" aria-label="Personagem anterior">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          
+          <div class="selector-title">
+            <h3 class="battle-title">JUIZ</h3>
+            <span class="battle-subtitle">VS BESTA</span>
+          </div>
+          
+          <button class="battle-btn battle-btn-next" aria-label="Próximo personagem">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Indicadores de Personagem -->
+        <div class="char-indicators reveal">
+          <span class="char-indicator btn-char-0 active" data-char="0">JUIZ</span>
+          <span class="char-indicator btn-char-1" data-char="1">COVEIRO</span>
+          <span class="char-indicator btn-char-2" data-char="2">METALÚRGICO</span>
+        </div>
+        
+        <!-- Palco da Batalha -->
+        <div class="battle-arena-stage reveal">
+          <!-- Impacto -->
+          <div class="battle-impact"></div>
+          
+          <!-- Chão da arena -->
+          <div class="arena-floor"></div>
+          
+          <!-- Personagem (esquerda) -->
+          <div class="fighter-container character-container position-start">
+            <div class="fighter-info character">
+              <span class="fighter-label">HERÓI</span>
+              <span class="fighter-name">JUIZ</span>
+            </div>
+            <div class="health-bar character">
+              <div class="health-fill" style="width:100%"></div>
+            </div>
+            <img class="fighter-sprite character" src="/images/personagens/Juiz/walk0.png" alt="Personagem" draggable="false">
+          </div>
+          
+          <!-- VS Divider -->
+          <div class="vs-divider">
+            <span>VS</span>
+          </div>
+          
+          <!-- Inimigo (direita) -->
+          <div class="fighter-container enemy-container position-start">
+            <div class="fighter-info enemy">
+              <span class="fighter-label">INIMIGO</span>
+              <span class="fighter-name">BESTA</span>
+            </div>
+            <div class="health-bar enemy">
+              <div class="health-fill" style="width:100%"></div>
+            </div>
+            <img class="fighter-sprite enemy" src="/images/inimigos/Besta/BestaWalk0.png" alt="Inimigo" draggable="false">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CONTATO -->
+    <section id="contato" class="contact">
+      <div class="container">
+        <div class="section-title reveal">
+          <h2>Entre em Contato</h2>
+          <span class="title-line"></span>
+        </div>
+        <p style="text-align:center; color: var(--text-secondary); margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;" class="reveal">
+          Entre em contato para mais informações sobre o jogo, parcerias ou sugestões.
+        </p>
+        
+        <div class="contact-links reveal" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;">
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/larsoincrivel" target="_blank" class="contact-link">
+            <div class="contact-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <span>Instagram</span>
+            </div>
+          </a>
+          
+          <!-- Facebook -->
+          <a href="https://www.facebook.com/profile.php?id=61553183860123" target="_blank" class="contact-link">
+            <div class="contact-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+              <span>Facebook</span>
+            </div>
+          </a>
+          
+          <!-- WhatsApp -->
+          <a href="https://wa.me/5577988326461" target="_blank" class="contact-link">
+            <div class="contact-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-9 9.9 8.38 8.38 0 0 1-9-9.9 8.38 8.38 0 0 1 9-9.9 8.38 8.38 0 0 1 9 9.9z"></path>
+                <polyline points="17 10 17 14 14 14"></polyline>
+                <line x1="11" y1="14" x2="11" y2="18"></line>
+              </svg>
+              <span>WhatsApp</span>
+            </div>
+          </a>
+          
+          <!-- Email -->
+          <a href="mailto:slazaro836@gmail.com" class="contact-link">
+            <div class="contact-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span>slazaro836@gmail.com</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <p>&copy; 2024 O Último Brasileiro. Todos os direitos reservados.</p>
+    <div class="audio-toggle" id="audio-toggle">
+      <button aria-label="Toggle background music" id="audio-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+          <path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path>
+          <path d="M19 7v10"></path>
+        </svg>
+        <span class="audio-label">Som</span>
+      </button>
+    </div>
+  </footer>
+  
+  <audio id="background-audio" loop>
+    <source src="/sounds/ambient-loop.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+  </audio>
+  
+  <!-- Custom JavaScript for advanced animations and audio -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Premium font implementation
+      document.querySelectorAll('h1, h2, h3, .hero-title, .section-title h2, .logo h1').forEach(el => {
+        el.style.fontFamily = '"Cinzel", "Cormorant Garamond", "Playfair Display", serif';
+      });
+      
+      document.querySelectorAll('p, .stat-label, .carousel-counter span, .nav-links a, footer p').forEach(el => {
+        el.style.fontFamily = '"Inter", "Montserrat", sans-serif';
+      });
+      
+      // GSAP animations for hero section
+      gsap.to('.hero-title', {
+        y: 0,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: '.hero',
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true
+        }
+      });
+      
+      // ScrollTrigger for cover section
+      gsap.to('.game-cover', {
+        scale: 1.05,
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: '.cover-section',
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true
+        }
+      });
+      
+      // ScrollTrigger for stats
+      gsap.to('.stat-item', {
+        y: 0,
+        opacity: 1,
+        stagger: 0.2,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: '.stats-container',
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true
+        }
+      });
+      
+      // ScrollTrigger for about cards
+      gsap.to('.about-card', {
+        y: 0,
+        opacity: 1,
+        stagger: 0.2,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: '.about-grid',
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true
+        }
+      });
+      
+      // ScrollTrigger for features
+      gsap.to('.feature', {
+        y: 0,
+        opacity: 1,
+        stagger: 0.2,
+        duration: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: '.features',
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true
+        }
+      });
+      
+      // Gallery upgrade with Splide.js
+      const splide = new Splide('#gallery-splide', {
+        type: 'slide',
+        perPage: 1,
+        perMove: 1,
+        pagination: false,
+        arrows: false,
+        gap: '1rem',
+        autoplay: true,
+        interval: 5000,
+        pauseOnHover: true,
+        pauseOnFocus: false,
+        speed: 800,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        transition: 'fade',
+        rewind: true,
+        drag: 'free',
+        wheel: true,
+        keyboard: true,
+        breakpoints: {
+          768: {
+            perPage: 1,
+            gap: '0.5rem'
+          }
+        }
+      });
+      
+      splide.mount();
+      
+      // Custom navigation buttons for gallery
+      const prevBtn = document.querySelector('.carousel-btn-prev');
+      const nextBtn = document.querySelector('.carousel-btn-next');
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => splide.go('<'));
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => splide.go('>'));
+      }
+      
+      // Update counter when slide changes
+      splide.on('mounted move', () => {
+        const current = splide.index + 1;
+        const total = splide.length;
+        
+        document.querySelector('.carousel-current').textContent = current;
+        document.querySelector('.carousel-total').textContent = total;
+      });
+      
+      // Microinteractions for menu links
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          // Create a red line that expands from center
+          const line = document.createElement('div');
+          line.style.position = 'absolute';
+          line.style.height = '2px';
+          line.style.width = '0';
+          line.style.background = '#e94560';
+          line.style.top = '50%';
+          line.style.left = '50%';
+          line.style.transform = 'translate(-50%, -50%)';
+          line.style.borderRadius = '1px';
+          line.style.pointerEvents = 'none';
+          line.style.zIndex = '10';
+          
+          link.style.position = 'relative';
+          link.appendChild(line);
+          
+          gsap.to(line, {
+            width: '100%',
+            duration: 0.4,
+            ease: "power2.out",
+            onComplete: () => {
+              // Add neon glow effect
+              gsap.to(line, {
+                boxShadow: '0 0 10px #e94560, 0 0 20px rgba(233, 69, 96, 0.5)',
+                duration: 0.2
+              });
+            }
+          });
+          
+          // Add fade out effect
+          setTimeout(() => {
+            gsap.to(line, {
+              opacity: 0,
+              duration: 0.3,
+              onComplete: () => {
+                if (line.parentNode) {
+                  line.parentNode.removeChild(line);
+                }
+              }
+            });
+          }, 800);
+        });
+      });
+      
+      // Enhanced audio functionality with Web Audio API
+      const audio = document.getElementById('background-audio');
+      const audioBtn = document.getElementById('audio-btn');
+      const audioToggle = document.getElementById('audio-toggle');
+      
+      // Create audio context for advanced audio control
+      let audioContext = null;
+      let audioSource = null;
+      let gainNode = null;
+      
+      // Initialize audio context on first user interaction
+      function initAudioContext() {
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          
+          // Create gain node for volume control
+          gainNode = audioContext.createGain();
+          gainNode.gain.value = 0.3; // Reduce volume for ambient sound
+          
+          // Create audio source from audio element
+          audioSource = audioContext.createMediaElementSource(audio);
+          audioSource.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+        }
+      }
+      
+      // Play audio with fade-in
+      function playAudioWithFadeIn() {
+        initAudioContext();
+        
+        // Fade in over 3 seconds
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 3);
+        
+        // Start audio
+        if (audio.paused) {
+          audio.play().catch(e => {
+            console.log('Audio play failed:', e);
+          });
+        }
+      }
+      
+      // Pause audio with fade-out
+      function pauseAudioWithFadeOut() {
+        if (audioContext && gainNode) {
+          // Fade out over 2 seconds
+          gainNode.gain.setValueAtTime(gainNode.gain.value, audioContext.currentTime);
+          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2);
+          
+          // Stop audio after fade out
+          setTimeout(() => {
+            if (!audio.paused) {
+              audio.pause();
+            }
+          }, 2000);
+        }
+      }
+      
+      // Audio toggle functionality with fade effects
+      audioBtn.addEventListener('click', function() {
+        if (audio.muted) {
+          // Unmute with fade in
+          audio.muted = false;
+          playAudioWithFadeIn();
+          audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><path d="M19 7v10"></path></svg>';
+          audioToggle.classList.remove('muted');
+          localStorage.setItem('audioMuted', 'false');
+        } else {
+          // Mute with fade out
+          pauseAudioWithFadeOut();
+          audio.muted = true;
+          audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19 7v10"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+          audioToggle.classList.add('muted');
+          localStorage.setItem('audioMuted', 'true');
+        }
+      });
+      
+      // Add audio toggle button to header for better visibility
+      const header = document.querySelector('header');
+      if (header) {
+        const audioButton = document.getElementById('audio-toggle');
+        header.appendChild(audioButton);
+      }
+      
+      // Audio transitions between sections
+      const sections = document.querySelectorAll('section');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            
+            // Change audio based on section
+            if (sectionId === 'home') {
+              // Main theme
+              audio.src = '/sounds/ambient-loop.mp3';
+              if (!audio.muted) {
+                audio.play().catch(e => {});
+              }
+            } else if (sectionId === 'capa') {
+              // Capa theme
+              audio.src = '/sounds/ambient-loop.mp3';
+              if (!audio.muted) {
+                audio.play().catch(e => {});
+              }
+            } else if (sectionId === 'sobre') {
+              // Sobre theme
+              audio.src = '/sounds/ambient-loop.mp3';
+              if (!audio.muted) {
+                audio.play().catch(e => {});
+              }
+            } else if (sectionId === 'jogabilidade') {
+              // Jogabilidade theme
+              audio.src = '/sounds/ambient-loop.mp3';
+              if (!audio.muted) {
+                audio.play().catch(e => {});
+              }
+            } else if (sectionId === 'galeria') {
+              // Galeria theme
+              audio.src = '/sounds/ambient-loop.mp3';
+              if (!audio.muted) {
+                audio.play().catch(e => {});
+              }
+            } else if (sectionId === 'batalha') {
+              // Batalha theme
+              audio.src = '/sounds/ambient-loop.mp3';
+              if (!audio.muted) {
+                audio.play().catch(e => {});
+              }
+            } else if (sectionId === 'contato') {
+              // Contato theme
+              audio.src = '/sounds/ambient-loop.mp3';
+              if (!audio.muted) {
+                audio.play().catch(e => {});
+              }
+            }
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
+</body>
+</html>

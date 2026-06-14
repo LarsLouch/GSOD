@@ -1,0 +1,727 @@
+/* ===========================================
+O ÚLTIMO BRASILEIRO - Efeitos Premium Next-Level
+Efeitos cinematográficos, partículas 3D,
+scanlines CRT, glitch, e muito mais
+========================================== */
+
+/* === SCANLINES CRT EFEITO === */
+.scanlines-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  animation: scanlinesMove 0.1s linear infinite;
+}
+
+@keyframes scanlinesMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
+/* === VIGNETTE CINEMATOGRÁFICA === */
+.vignette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.4) 80%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+/* === HERO RAYS - LIGHT BEAMS === */
+.hero-light-rays {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-light-rays::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(233, 69, 96, 0.03) 30deg,
+    transparent 60deg,
+    rgba(0, 212, 255, 0.03) 90deg,
+    transparent 120deg,
+    rgba(168, 85, 247, 0.02) 150deg,
+    transparent 180deg,
+    rgba(255, 215, 0, 0.02) 210deg,
+    transparent 240deg,
+    rgba(233, 69, 96, 0.03) 270deg,
+    transparent 300deg,
+    rgba(0, 212, 255, 0.02) 330deg,
+    transparent 360deg
+  );
+  animation: lightRaysRotate 30s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes lightRaysRotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* === GLITCH EFFECT NO TÍTULO === */
+@keyframes glitchText {
+  0%, 5%, 100% {
+    text-shadow: none;
+    transform: none;
+  }
+  1% {
+    text-shadow: -3px 0 var(--primary), 3px 0 var(--secondary);
+    transform: translate(-2px, 1px);
+  }
+  2% {
+    text-shadow: 2px 0 var(--purple), -2px 0 var(--accent);
+    transform: translate(2px, -1px);
+  }
+  3% {
+    text-shadow: -2px 0 var(--secondary), 2px 0 var(--primary);
+    transform: translate(-1px, 2px);
+  }
+  4% {
+    text-shadow: 3px 0 var(--accent), -3px 0 var(--purple);
+    transform: translate(1px, -2px);
+  }
+}
+
+.glitch-text {
+  animation: glitchText 5s infinite;
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.glitch-text::before {
+  color: var(--primary);
+  z-index: -1;
+  animation: glitchBefore 5s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.glitch-text::after {
+  color: var(--secondary);
+  z-index: -1;
+  animation: glitchAfter 5s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBefore {
+  0%, 5%, 100% { transform: translate(0); }
+  1% { transform: translate(-5px, -2px); }
+  2% { transform: translate(3px, 1px); }
+  3% { transform: translate(-1px, 3px); }
+  4% { transform: translate(4px, -1px); }
+}
+
+@keyframes glitchAfter {
+  0%, 5%, 100% { transform: translate(0); }
+  1% { transform: translate(2px, 3px); }
+  2% { transform: translate(-4px, -1px); }
+  3% { transform: translate(5px, -2px); }
+  4% { transform: translate(-3px, 2px); }
+}
+
+/* === FLOATING ORBS - ESFERAS FLUTUANTES === */
+.floating-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(40px);
+  opacity: 0.15;
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+
+.floating-orb:nth-child(1) {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--primary), transparent);
+  top: 10%;
+  left: -5%;
+  animation-duration: 18s;
+  animation-delay: 0s;
+}
+
+.floating-orb:nth-child(2) {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--secondary), transparent);
+  top: 60%;
+  right: -3%;
+  animation-duration: 22s;
+  animation-delay: -5s;
+}
+
+.floating-orb:nth-child(3) {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--purple), transparent);
+  bottom: -5%;
+  left: 40%;
+  animation-duration: 25s;
+  animation-delay: -10s;
+}
+
+.floating-orb:nth-child(4) {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--accent), transparent);
+  top: 40%;
+  left: 60%;
+  animation-duration: 15s;
+  animation-delay: -3s;
+}
+
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -40px) scale(1.1); }
+  50% { transform: translate(-20px, 30px) scale(0.9); }
+  75% { transform: translate(40px, 20px) scale(1.05); }
+  100% { transform: translate(-30px, -20px) scale(1); }
+}
+
+/* === CARD 3D TILT EFFECT === */
+.card-tilt {
+  perspective: 1000px;
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+
+.card-tilt::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-tilt:hover::after {
+  opacity: 1;
+}
+
+.card-tilt-inner {
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* === NEON PULSE RINGS === */
+.neon-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: neonPulseRing 3s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes neonPulseRing {
+  0% {
+    width: 50px;
+    height: 50px;
+    opacity: 0.8;
+    border-color: var(--primary);
+  }
+  50% {
+    opacity: 0.4;
+    border-color: var(--secondary);
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+    border-color: var(--purple);
+  }
+}
+
+/* === SHIMMER EFFECT NOS CARDS === */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.03),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: shimmer 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { left: -60%; }
+  20% { left: 120%; }
+  100% { left: 120%; }
+}
+
+/* === SECTION TRANSITIONS - WARP === */
+.section-warp {
+  position: relative;
+}
+
+.section-warp::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--primary) 10%,
+    var(--secondary) 30%,
+    var(--purple) 50%,
+    var(--secondary) 70%,
+    var(--primary) 90%,
+    transparent 100%
+  );
+  filter: blur(3px);
+  opacity: 0.4;
+  animation: warpLine 4s ease-in-out infinite;
+}
+
+@keyframes warpLine {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 0.3;
+    filter: blur(3px);
+  }
+  50% {
+    transform: scaleX(1.5);
+    opacity: 0.6;
+    filter: blur(1px);
+  }
+}
+
+/* === RAINBOW BORDER ANIMATION (mais intensa) === */
+.rainbow-border {
+  position: relative;
+}
+
+.rainbow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7700,
+    #ffff00,
+    #00ff00,
+    #0077ff,
+    #8b00ff,
+    #ff0000
+  );
+  background-size: 400% 400%;
+  z-index: -1;
+  animation: rainbowMove 6s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.rainbow-border:hover::before {
+  opacity: 1;
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
+}
+
+/* === STARFIELD TWINKLE === */
+.starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 30% 40%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 15%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 55%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 35%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 85%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 5%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 45%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 65%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 25%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 95%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 50%, rgba(255,255,255,0.6) 0%, transparent 100%);
+  background-size: 200px 200px;
+  animation: starTwinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+  100% { opacity: 0.3; }
+}
+
+/* === HOVER GLOW INTENSE NOS BOTÕES === */
+.btn-glow-intense {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow-intense::before {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(233, 69, 96, 0.4) 0%, transparent 70%);
+  transition: width 0.6s ease, height 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-glow-intense:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* === PARALLAX MOUSE GLOW === */
+.mouse-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -2;
+  background: radial-gradient(circle,
+    rgba(233, 69, 96, 0.04) 0%,
+    rgba(0, 212, 255, 0.02) 30%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+}
+
+/* === TITLE ENTRY ANIMATION === */
+@keyframes titleEntryReveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  30% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+.title-reveal {
+  animation: titleEntryReveal 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* === CARD HOVER RAISE EXTREME === */
+.card-raise-extreme {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-raise-extreme:hover {
+  transform: translateY(-20px) scale(1.04);
+  box-shadow:
+    0 0 20px var(--primary-glow),
+    0 0 40px rgba(233, 69, 96, 0.2),
+    0 0 60px rgba(168, 85, 247, 0.15),
+    0 20px 80px rgba(0, 0, 0, 0.7);
+}
+
+/* === FLOATING LABELS / BADGES === */
+.floating-badge {
+  display: inline-block;
+  animation: badgeFloat 3s ease-in-out infinite;
+}
+
+@keyframes badgeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* === PROGRESS BAR GLOW === */
+.progress-glow {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
+  animation: progressScan 3s ease-in-out infinite;
+}
+
+@keyframes progressScan {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* === MAGNETIC CARD ATTRACTOR === */
+.magnetic-area {
+  transition: transform 0.2s ease;
+}
+
+/* === PARTICLE BURST ON CLICK === */
+.particle-burst {
+  position: absolute;
+  pointer-events: none;
+}
+
+.particle-burst span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: burstParticle 0.8s ease-out forwards;
+}
+
+@keyframes burstParticle {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y)) scale(0);
+  }
+}
+
+/* === TYPEWRITER CURSOR GLOW ENHANCED === */
+.typing-cursor-premium {
+  display: inline-block;
+  width: 3px;
+  height: 1.4rem;
+  background: var(--primary);
+  margin-left: 4px;
+  animation:
+    cursorBlink 0.8s step-end infinite,
+    cursorGlowPulse 2s ease-in-out infinite;
+  vertical-align: text-bottom;
+  box-shadow:
+    0 0 10px var(--primary-glow),
+    0 0 20px var(--primary-glow),
+    0 0 40px rgba(233, 69, 96, 0.3);
+  border-radius: 2px;
+}
+
+@keyframes cursorGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+  }
+  50% {
+    box-shadow: 0 0 15px var(--primary-glow), 0 0 30px var(--primary-glow), 0 0 50px rgba(233, 69, 96, 0.4);
+  }
+}
+
+/* === SECTION SEPARATOR - GLITCH LINE === */
+.section-glitch-line {
+  position: relative;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--purple), transparent);
+  margin: 0 auto;
+  max-width: 80%;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.section-glitch-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: glitchSweep 3s ease-in-out infinite;
+}
+
+@keyframes glitchSweep {
+  0% { left: -50%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* === COUNTER NUMBER ENHANCED === */
+.counter-number {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(135deg,
+    var(--primary) 0%,
+    var(--secondary) 50%,
+    var(--purple) 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: counterGradient 3s ease-in-out infinite alternate;
+}
+
+@keyframes counterGradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* === NAVBAR LINK HOVER SLIDE === */
+.nav-link-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link-slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.nav-link-slide:hover::after {
+  transform: translateX(0);
+}
+
+/* === IMAGE BORDER GLOW INTENSE === */
+.img-border-glow {
+  position: relative;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.img-border-glow::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: linear-gradient(135deg,
+    var(--primary),
+    var(--secondary),
+    transparent 30%,
+    transparent 70%,
+    var(--purple),
+    var(--accent)
+  );
+  background-size: 300% 300%;
+  z-index: -1;
+  animation: imgBorderAnim 4s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes imgBorderAnim {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === MOBILE ADJUSTMENTS FOR EFFECTS === */
+@media (max-width: 768px) {
+  .floating-orb {
+    display: none;
+  }
+
+  .starfield {
+    opacity: 0.2;
+  }
+
+  .hero-light-rays::before {
+    opacity: 0.3;
+  }
+
+  .mouse-glow {
+    display: none;
+  }
+}
