@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Último Brasileiro - Mini Jogo</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/effects-premium.css">
+    <link rel="icon" type="image/png" href="imagens/icons/icon512x512.png">
+    <style>
+        /* Game-specific styles */
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #0a0a14;
+            font-family: var(--font-main);
+        }
+        
+        #game-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #character-selection {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 100;
+            background: rgba(10, 10, 25, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 3rem;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), var(--shadow-neon-multicolor);
+            color: var(--text-primary);
+        }
+        
+        #character-selection h2 {
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+        
+        .character-option {
+            display: inline-block;
+            margin: 0 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: var(--border-radius-md);
+            padding: 1rem;
+            border: 2px solid transparent;
+        }
+        
+        .character-option:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+        
+        .character-option img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+        }
+        
+        .character-option h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .character-option.selected {
+            border-color: var(--primary);
+            background: rgba(233, 69, 96, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+        
+        #game-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            color: var(--text-primary);
+            font-size: 1rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background: rgba(10, 10, 25, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 0.8rem;
+            border-radius: var(--border-radius-md);
+            border: 1px solid rgba(233, 69, 96, 0.2);
+        }
+        
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 100;
+            background: rgba(10, 10, 25, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 3rem;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(233, 69, 96, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), var(--shadow-neon-multicolor);
+            color: var(--text-primary);
+            display: none;
+        }
+        
+        #game-over h2 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+        
+        #game-over p {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+        
+        #restart-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--text-primary);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 10px var(--primary-glow);
+        }
+        
+        #restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 30px var(--primary-glow);
+        }
+        
+        #restart-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Health bar styles */
+        .health-bar-container {
+            position: absolute;
+            top: 10px;
+            width: 300px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            border: 1px solid rgba(233, 69, 96, 0.2);
+            overflow: hidden;
+        }
+        
+        .health-bar-container.player {
+            left: 20px;
+        }
+        
+        .health-bar-container.enemy {
+            right: 20px;
+        }
+        
+        .health-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #00ff00);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .health-bar-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: healthGlow 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes healthGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.8; }
+        }
+        
+        .health-bar-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.8;
+        }
+        
+        /* Game over screen styles */
+        .game-over-text {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-shadow: 0 0 30px var(--primary-glow);
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            #character-selection {
+                padding: 2rem;
+            }
+            
+            .character-option img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .character-option h3 {
+                font-size: 0.8rem;
+            }
+            
+            #game-info {
+                font-size: 0.8rem;
+                padding: 0.5rem;
+            }
+            
+            .health-bar-container {
+                width: 200px;
+                height: 15px;
+            }
+            
+            #game-over {
+                padding: 2rem;
+            }
+            
+            .game-over-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor Personalizado -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Game Container -->
+    <div id="game-container">
+        <!-- Character Selection Screen -->
+        <div id="character-selection">
+            <h2>Escolha seu Personagem</h2>
+            <div class="character-option" data-character="Juiz">
+                <img src="imagens/personagens/Juiz/walk0.png" alt="Juiz">
+                <h3>Juiz</h3>
+            </div>
+            <div class="character-option" data-character="Coveiro">
+                <img src="imagens/personagens/Coveiro/walk0.png" alt="Coveiro">
+                <h3>Coveiro</h3>
+            </div>
+            <div class="character-option" data-character="Metalurgico">
+                <img src="imagens/personagens/Metalúrgico/walk0.png" alt="Metalúrgico">
+                <h3>Metalúrgico</h3>
+            </div>
+        </div>
+
+        <!-- Game Info Display -->
+        <div id="game-info">
+            <div>Score: <span id="score">0</span></div>
+            <div>Enemies Defeated: <span id="enemies-defeated">0</span></div>
+        </div>
+
+        <!-- Player Health Bar -->
+        <div class="health-bar-container player">
+            <div class="health-bar-fill" id="player-health-fill"></div>
+        </div>
+
+        <!-- Enemy Health Bar -->
+        <div class="health-bar-container enemy">
+            <div class="health-bar-fill" id="enemy-health-fill"></div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over">
+            <h2 class="game-over-text">Fim de Jogo!</h2>
+            <p>Score Final: <span id="final-score">0</span></p>
+            <p>Enemies Defeated: <span id="final-enemies">0</span></p>
+            <button id="restart-btn">Jogar Novamente</button>
+        </div>
+
+        <!-- Game Canvas -->
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <script type="module">
+        // Import required modules
+        import { CustomCursor } from './js/modules/CustomCursor.js';
+        import { MouseGlow } from './js/modules/MouseGlow.js';
+        
+        // Initialize cursor
+        document.addEventListener('DOMContentLoaded', () => {
+            new CustomCursor();
+            new MouseGlow();
+        });
+    </script>
+
+    <script>
+        // Game logic will be implemented here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Game variables
+            const gameContainer = document.getElementById('game-container');
+            const canvas = document.getElementById('game-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size to match window
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            
+            // Game state
+            let gameState = 'characterSelection'; // characterSelection, playing, gameOver
+            let score = 0;
+            let enemiesDefeated = 0;
+            let playerCharacter = null;
+            let playerHealth = 100;
+            let enemyHealth = 100;
+            let player = {
+                x: 100,
+                y: 0,
+                width: 64,
+                height: 64,
+                speed: 5,
+                velocityY: 0,
+                isJumping: false,
+                direction: 1, // 1 for right, -1 for left
+                currentFrame: 0,
+                frameCount: 0,
+                walkFrames: [],
+                attackFrames: [],
+                isAttacking: false,
+                attackCooldown: 0
+            };
+            
+            let enemies = [];
+            let lastEnemySpawn = 0;
+            let enemySpawnRate = 2000; // milliseconds
+            
+            // Load character sprites
+            const characterData = {
+                Juiz: {
+                    folder: 'imagens/personagens/Juiz/',
+                    walkFrames: ['walk0.png', 'walk1.png', 'walk2.png'],
+                    attackFrames: ['atack2_0.png', 'atack2_1.png', 'atack2_2.png', 'atack2_3.png'],
+                    healthMax: 100
+                },
+                Coveiro: {
+                    folder: 'imagens/personagens/Coveiro/',
+                    walkFrames: ['walk0.png', 'walk1.png', 'walk2.png'],
+                    attackFrames: ['atack0.png', 'atack1.png', 'atack2.png', 'atack3.png'],
+                    healthMax: 100
+                },
+                Metalurgico: {
+                    folder: 'imagens/personagens/Metalúrgico/',
+                    walkFrames: ['walk0.png', 'walk1.png', 'walk2.png'],
+                    attackFrames: ['atack1.png', 'atack2_0.png', 'atack2.png'],
+                    healthMax: 100
+                }
+            };
+            
+            const enemyData = {
+                Besta: {
+                    folder: 'imagens/inimigos/Besta/',
+                    walkFrames: ['BestaWalk0.png', 'BestaWalk1.png', 'BestaWalk2.png'],
+                    attackFrames: ['BestaAtack0.png', 'BestaAtack1.png', 'BestaAtack2.png', 'BestaAtack3.png', 'BestaAtack4.png'],
+                    healthMax: 100
+                },
+                Golen: {
+                    folder: 'imagens/inimigos/Golen/',
+                    walkFrames: ['golemroxowalk0.png', 'golemroxowalk1.png', 'golemroxowalk2.png'],
+                    attackFrames: ['golemroxoatack0.png', 'golemroxoatack1.png', 'golemroxoatack2.png', 'golemroxoatack3.png'],
+                    healthMax: 100
+                },
+                Poluido: {
+                    folder: 'imagens/inimigos/Poluido/',
+                    walkFrames: ['poluidowalk0.png', 'poluidowalk1.png', 'poluidowalk2.png'],
+                    attackFrames: ['poluido2atack0.png', 'poluido2atack1.png', 'poluido2atack2.png', 'poluido2atack3.png'],
+                    healthMax: 100
+                }
+            };
+            
+            // Load character images
+            function loadCharacterImages(characterName) {
+                const data = characterData[characterName];
+                player.walkFrames = [];
+                player.attackFrames = [];
+                
+                // Load walk frames
+                data.walkFrames.forEach(frame => {
+                    const img = new Image();
+                    img.src = data.folder + frame;
+                    player.walkFrames.push(img);
+                });
+                
+                // Load attack frames
+                data.attackFrames.forEach(frame => {
+                    const img = new Image();
+                    img.src = data.folder + frame;
+                    player.attackFrames.push(img);
+                });
+                
+                player.healthMax = data.healthMax;
+                playerHealth = player.healthMax;
+                updateHealthBars();
+            }
+            
+            // Load enemy images
+            function loadEnemyImages(enemyType) {
+                const data = enemyData[enemyType];
+                const walkFrames = [];
+                const attackFrames = [];
+                
+                // Load walk frames
+                data.walkFrames.forEach(frame => {
+                    const img = new Image();
+                    img.src = data.folder + frame;
+                    walkFrames.push(img);
+                });
+                
+                // Load attack frames
+                data.attackFrames.forEach(frame => {
+                    const img = new Image();
+                    img.src = data.folder + frame;
+                    attackFrames.push(img);
+                });
+                
+                return { walkFrames, attackFrames, healthMax: data.healthMax };
+            }
+            
+            // Initialize character selection
+            function initCharacterSelection() {
+                const characterOptions = document.querySelectorAll('.character-option');
+                characterOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const characterName = this.getAttribute('data-character');
+                        playerCharacter = characterName;
+                        
+                        // Update selected state
+                        characterOptions.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
+                        // Load character images
+                        loadCharacterImages(characterName);
+                        
+                        // Start game
+                        gameState = 'playing';
+                        document.getElementById('character-selection').style.display = 'none';
+                        
+                        // Reset game state
+                        score = 0;
+                        enemiesDefeated = 0;
+                        playerHealth = player.healthMax;
+                        enemyHealth = 100;
+                        enemies = [];
+                        
+                        // Update UI
+                        document.getElementById('score').textContent = score;
+                        document.getElementById('enemies-defeated').textContent = enemiesDefeated;
+                        updateHealthBars();
+                        
+                        // Start game loop
+                        gameLoop();
+                    });
+                });
+            }
+            
+            // Update health bars
+            function updateHealthBars() {
+                const playerHealthFill = document.getElementById('player-health-fill');
+                const enemyHealthFill = document.getElementById('enemy-health-fill');
+                
+                // Player health
+                const playerHealthPercent = (playerHealth / player.healthMax) * 100;
+                playerHealthFill.style.width = playerHealthPercent + '%';
+                
+                // Enemy health
+                const enemyHealthPercent = (enemyHealth / 100) * 100;
+                enemyHealthFill.style.width = enemyHealthPercent + '%';
+            }
+            
+            // Game loop
+            function gameLoop() {
+                if (gameState !== 'playing') return;
+                
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw background
+                drawBackground();
+                
+                // Update player
+                updatePlayer();
+                
+                // Draw player
+                drawPlayer();
+                
+                // Update and draw enemies
+                updateEnemies();
+                drawEnemies();
+                
+                // Spawn enemies
+                spawnEnemies();
+                
+                // Check collisions
+                checkCollisions();
+                
+                // Continue loop
+                requestAnimationFrame(gameLoop);
+            }
+            
+            // Draw background
+            function drawBackground() {
+                // Draw sky background
+                ctx.fillStyle = '#0a0a14';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw landscape background
+                const landscapeImg = new Image();
+                landscapeImg.src = 'imagens/cenario/paisagem.png';
+                ctx.drawImage(landscapeImg, 0, 0, canvas.width, canvas.height);
+                
+                // Draw ground
+                const groundImg = new Image();
+                groundImg.src = 'imagens/cenario/piso.png';
+                ctx.drawImage(groundImg, 0, canvas.height - 100, canvas.width, 100);
+            }
+            
+            // Update player
+            function updatePlayer() {
+                // Handle input
+                if (keys.ArrowLeft) {
+                    player.x -= player.speed;
+                    player.direction = -1;
+                }
+                if (keys.ArrowRight) {
+                    player.x += player.speed;
+                    player.direction = 1;
+                }
+                
+                // Jump
+                if (keys.ArrowUp && !player.isJumping) {
+                    player.velocityY = -15;
+                    player.isJumping = true;
+                }
+                
+                // Apply gravity
+                player.velocityY += 0.8;
+                player.y += player.velocityY;
+                
+                // Ground collision
+                if (player.y > canvas.height - 100 - player.height) {
+                    player.y = canvas.height - 100 - player.height;
+                    player.velocityY = 0;
+                    player.isJumping = false;
+                }
+                
+                // Boundary checks
+                if (player.x < 0) player.x = 0;
+                if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
+                
+                // Attack cooldown
+                if (player.attackCooldown > 0) {
+                    player.attackCooldown--;
+                }
+                
+                // Handle attack
+                if (keys.Space && player.attackCooldown <= 0) {
+                    player.isAttacking = true;
+                    player.attackCooldown = 30; // 0.5 seconds at 60fps
+                    
+                    // Reset attack frame
+                    player.currentFrame = 0;
+                    player.frameCount = 0;
+                }
+                
+                // Animation
+                if (player.isAttacking) {
+                    player.frameCount++;
+                    if (player.frameCount >= 8) { // Change frame every 8 frames
+                        player.currentFrame++;
+                        player.frameCount = 0;
+                        
+                        // End attack animation
+                        if (player.currentFrame >= player.attackFrames.length) {
+                            player.isAttacking = false;
+                            player.currentFrame = 0;
+                        }
+                    }
+                } else if (keys.ArrowLeft || keys.ArrowRight) {
+                    player.frameCount++;
+                    if (player.frameCount >= 10) { // Change frame every 10 frames
+                        player.currentFrame++;
+                        player.frameCount = 0;
+                        
+                        if (player.currentFrame >= player.walkFrames.length) {
+                            player.currentFrame = 0;
+                        }
+                    }
+                } else {
+                    // Idle frame
+                    player.currentFrame = 0;
+                }
+            }
+            
+            // Draw player
+            function drawPlayer() {
+                // Draw player sprite
+                if (player.isAttacking && player.attackFrames.length > 0) {
+                    ctx.drawImage(
+                        player.attackFrames[player.currentFrame], 
+                        player.x, 
+                        player.y, 
+                        player.width, 
+                        player.height
+                    );
+                } else if ((keys.ArrowLeft || keys.ArrowRight) && player.walkFrames.length > 0) {
+                    ctx.drawImage(
+                        player.walkFrames[player.currentFrame], 
+                        player.x, 
+                        player.y, 
+                        player.width, 
+                        player.height
+                    );
+                } else if (player.walkFrames.length > 0) {
+                    ctx.drawImage(
+                        player.walkFrames[0], 
+                        player.x, 
+                        player.y, 
+                        player.width, 
+                        player.height
+                    );
+                }
+                
+                // Draw attack hitbox
+                if (player.isAttacking) {
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeRect(
+                        player.x + (player.direction === 1 ? player.width : -player.width), 
+                        player.y + 10, 
+                        player.width * 2 * player.direction, 
+                        player.height - 20
+                    );
+                    ctx.setLineDash([]);
+                }
+            }
+            
+            // Update enemies
+            function updateEnemies() {
+                // Update each enemy
+                for (let i = enemies.length - 1; i >= 0; i--) {
+                    const enemy = enemies[i];
+                    
+                    // Move enemy toward player
+                    const dx = player.x - enemy.x;
+                    const dy = player.y - enemy.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance > 0) {
+                        enemy.x += (dx / distance) * enemy.speed;
+                        enemy.y += (dy / distance) * enemy.speed;
+                    }
+                    
+                    // Animation
+                    enemy.frameCount++;
+                    if (enemy.frameCount >= 10) {
+                        enemy.currentFrame++;
+                        enemy.frameCount = 0;
+                        
+                        if (enemy.currentFrame >= enemy.walkFrames.length) {
+                            enemy.currentFrame = 0;
+                        }
+                    }
+                    
+                    // Check if enemy is out of bounds
+                    if (enemy.x > canvas.width || enemy.x < -enemy.width || enemy.y > canvas.height) {
+                        enemies.splice(i, 1);
+                    }
+                }
+            }
+            
+            // Draw enemies
+            function drawEnemies() {
+                enemies.forEach(enemy => {
+                    // Draw enemy sprite
+                    if (enemy.walkFrames.length > 0) {
+                        ctx.drawImage(
+                            enemy.walkFrames[enemy.currentFrame], 
+                            enemy.x, 
+                            enemy.y, 
+                            enemy.width, 
+                            enemy.height
+                        );
+                    }
+                    
+                    // Draw enemy health bar
+                    const healthPercent = (enemy.health / enemy.healthMax) * 100;
+                    
+                    // Health bar background
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                    ctx.fillRect(enemy.x, enemy.y - 15, enemy.width, 5);
+                    
+                    // Health bar fill
+                    ctx.fillStyle = 'rgba(0, 255, 0, 0.8)';
+                    ctx.fillRect(enemy.x, enemy.y - 15, (enemy.width * healthPercent) / 100, 5);
+                });
+            }
+            
+            // Spawn enemies
+            function spawnEnemies() {
+                const now = Date.now();
+                if (now - lastEnemySpawn > enemySpawnRate) {
+                    // Random enemy type
+                    const enemyTypes = ['Besta', 'Golen', 'Poluido'];
+                    const enemyType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
+                    const enemyInfo = loadEnemyImages(enemyType);
+                    
+                    // Create new enemy
+                    const enemy = {
+                        x: canvas.width,
+                        y: canvas.height - 100 - 64,
+                        width: 64,
+                        height: 64,
+                        speed: 2,
+                        health: enemyInfo.healthMax,
+                        healthMax: enemyInfo.healthMax,
+                        walkFrames: enemyInfo.walkFrames,
+                        attackFrames: enemyInfo.attackFrames,
+                        currentFrame: 0,
+                        frameCount: 0
+                    };
+                    
+                    enemies.push(enemy);
+                    lastEnemySpawn = now;
+                    
+                    // Increase spawn rate over time
+                    if (enemySpawnRate > 800) {
+                        enemySpawnRate -= 50;
+                    }
+                }
+            }
+            
+            // Check collisions
+            function checkCollisions() {
+                // Check player attack collisions with enemies
+                if (player.isAttacking) {
+                    const attackBox = {
+                        x: player.x + (player.direction === 1 ? player.width : -player.width),
+                        y: player.y + 10,
+                        width: player.width * 2 * player.direction,
+                        height: player.height - 20
+                    };
+                    
+                    for (let i = enemies.length - 1; i >= 0; i--) {
+                        const enemy = enemies[i];
+                        
+                        // Check collision
+                        if (attackBox.x < enemy.x + enemy.width &&
+                            attackBox.x + attackBox.width > enemy.x &&
+                            attackBox.y < enemy.y + enemy.height &&
+                            attackBox.y + attackBox.height > enemy.y) {
+                            
+                            // Apply damage
+                            enemy.health -= 25;
+                            
+                            // Remove enemy if health <= 0
+                            if (enemy.health <= 0) {
+                                enemies.splice(i, 1);
+                                enemiesDefeated++;
+                                score += 100;
+                                
+                                // Update UI
+                                document.getElementById('score').textContent = score;
+                                document.getElementById('enemies-defeated').textContent = enemiesDefeated;
+                            }
+                        }
+                    }
+                }
+                
+                // Check enemy collision with player
+                for (let i = enemies.length - 1; i >= 0; i--) {
+                    const enemy = enemies[i];
+                    
+                    if (player.x < enemy.x + enemy.width &&
+                        player.x + player.width > enemy.x &&
+                        player.y < enemy.y + enemy.height &&
+                        player.y + player.height > enemy.y) {
+                        
+                        // Apply damage to player
+                        playerHealth -= 1;
+                        updateHealthBars();
+                        
+                        // Check for game over
+                        if (playerHealth <= 0) {
+                            gameState = 'gameOver';
+                            document.getElementById('final-score').textContent = score;
+                            document.getElementById('final-enemies').textContent = enemiesDefeated;
+                            document.getElementById('game-over').style.display = 'block';
+                        }
+                    }
+                }
+            }
+            
+            // Key press handler
+            const keys = {};
+            
+            document.addEventListener('keydown', function(e) {
+                keys[e.key] = true;
+            });
+            
+            document.addEventListener('keyup', function(e) {
+                keys[e.key] = false;
+            });
+            
+            // Restart game
+            document.getElementById('restart-btn').addEventListener('click', function() {
+                document.getElementById('game-over').style.display = 'none';
+                gameState = 'characterSelection';
+                document.getElementById('character-selection').style.display = 'block';
+                
+                // Reset game state
+                score = 0;
+                enemiesDefeated = 0;
+                playerHealth = 100;
+                enemyHealth = 100;
+                enemies = [];
+                lastEnemySpawn = 0;
+                enemySpawnRate = 2000;
+                
+                // Update UI
+                document.getElementById('score').textContent = score;
+                document.getElementById('enemies-defeated').textContent = enemiesDefeated;
+                updateHealthBars();
+            });
+            
+            // Initialize character selection
+            initCharacterSelection();
+        });
+    </script>
+</body>
+</html>
