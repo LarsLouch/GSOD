@@ -430,7 +430,16 @@ import '../scripts/MouseGlow.js';
 import '../scripts/CardTilt3D.js';
 import '../scripts/GalleryLightbox.js';
 import '../scripts/GalleryCarousel.js';
-import '../scripts/BattleArena.js';
+
+// Dynamic import for BattleArena.js with error handling (file may not exist)
+// This prevents build failures on case-sensitive systems like Vercel
+(async () => {
+  try {
+    await import('../scripts/BattleArena.js');
+  } catch (error) {
+    console.warn('BattleArena.js not found, skipping initialization');
+  }
+})();
 
   document.addEventListener('DOMContentLoaded', function() {
       // Premium font implementation
