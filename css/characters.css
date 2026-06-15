@@ -1,0 +1,172 @@
+/* ==========================================
+   O ÚLTIMO BRASILEIRO - Seção de Personagens
+   Cards Premium com Efeitos Neon
+   ========================================== */
+
+/* === CHARACTERS SECTION === */
+.characters {
+    padding: 6rem 2rem;
+    position: relative;
+    background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 50%, var(--bg-dark) 100%);
+}
+
+.characters::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+    opacity: 0.3;
+}
+
+.characters::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--purple), var(--secondary), transparent);
+    opacity: 0.15;
+}
+
+.characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.character-card {
+    background: rgba(20, 20, 40, 0.8);
+    border: 2px solid rgba(233, 69, 96, 0.2);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition: all 0.4s ease;
+    position: relative;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.character-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(233, 69, 96, 0.1) 0%, 
+        transparent 50%,
+        rgba(168, 85, 247, 0.1) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.character-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--primary);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px var(--primary-glow);
+}
+
+.character-card:hover::before {
+    opacity: 1;
+}
+
+.character-image {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, 
+        rgba(233, 69, 96, 0.15) 0%, 
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    overflow: hidden;
+    position: relative;
+}
+
+.character-image img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(233, 69, 96, 0.5));
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.character-card:hover .character-image img {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 30px var(--primary-glow));
+}
+
+.character-info {
+    padding: 1.5rem;
+}
+
+.character-info h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px var(--primary-glow);
+}
+
+.character-info p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.character-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.character-stats .stat {
+    background: rgba(233, 69, 96, 0.15);
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+}
+
+/* Responsive Characters */
+@media (max-width: 768px) {
+    .characters {
+        padding: 4rem 1rem;
+    }
+    
+    .characters-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .character-image {
+        height: 200px;
+    }
+    
+    .character-image img {
+        max-width: 150px;
+        max-height: 150px;
+    }
+    
+    .character-info h3 {
+        font-size: 1.5rem;
+    }
+}
