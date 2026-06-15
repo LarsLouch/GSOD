@@ -1,104 +1,154 @@
 ---
-import { supabase } from '../lib/supabase';
-import { onMount } from 'astro:components';
-
-let email = '';
-let password = '';
-let errorMessage = '';
-let isLoading = false;
-
-async function handleLogin() {
- errorMessage = '';
- isLoading = true;
-
- const { data, error } = await supabase.auth.signInWithPassword({
- email: email,
- password: password
- });
-
- isLoading = false;
-
- if (error) {
- errorMessage = error.message;
- return;
- }
-
- // Redirect to home page on successful login
- window.location.href = '/';
-}
-
-async function handleSignup() {
- errorMessage = '';
- isLoading = true;
-
- const { data, error } = await supabase.auth.signUp({
- email: email,
- password: password
- });
-
- isLoading = false;
-
- if (error) {
- errorMessage = error.message;
- return;
- }
-
- // Show success message and redirect to home
- alert('Check your email for the confirmation link!');
- window.location.href = '/';
-}
+import Layout from '../layouts/Layout.astro'; // Garanta que o caminho do seu layout está correto aqui
 ---
 
 <Layout>
- <div class="auth-container">
- <div class="auth-card">
- <h2>Login</h2>
- 
- <form class="auth-form" on:submit|preventDefault={handleLogin}>
- <div class="form-group">
- <label for="email">Email</label>
- <input
- type="email"
- id="email"
- bind:value={email}
- placeholder="seuemail@exemplo.com"
- required>
- </div>
- 
- <div class="form-group">
- <label for="password">Senha</label>
- <input
- type="password"
- id="password"
- bind:value={password}
- placeholder="********"
- required>
- </div>
- 
- {#if errorMessage}
- <div class="error-message">{errorMessage}</div>
- {/if}
- 
- <button type="submit" disabled={isLoading} class="btn-primary">
- {#if isLoading}
- Carregando...
- {:else}
- Entrar
- {/if}
- </button>
- </form>
- 
- <div class="divider">
- <span>ou</span>
- </div>
- 
- <button class="btn-secondary" on:click={handleSignup}>
- Criar conta
- </button>
- 
- <p class="auth-footer">
- <a href="/">Voltar para o site</a>
- </p>
- </div>
- </div>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h2>Acessar Plataforma</h2>
+      
+      <form class="auth-form" id="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="seuemail@exemplo.com"
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="********"
+            required>
+        </div>
+        
+        <div id="error-box" class="error-message" style="display: none;"></div>
+        
+        <button type="submit" id="btn-login" class="btn-primary">
+          Entrar
+        </button>
+      </form>
+      
+      <div class="divider">
+        <span>ou</span>
+      </div>
+      
+      <button class="btn-secondary" id="btn-signup">
+        Criar conta
+      </button>
+      
+      <p class="auth-footer">
+        <a href="/">Voltar para o site</a>
+      </p>
+    </div>
+  </div>
 </Layout>
+
+<script>
+  import { supabase } from '../lib/supabase';
+
+  const form = document.getElementById('login-form') as HTMLFormElement;
+  const btnLogin = document.getElementById('btn-login') as HTMLButtonElement;
+  const btnSignup = document.getElementById('btn-signup') as HTMLButtonElement;
+  const errorBox = document.getElementById('error-box') as HTMLDivElement;
+
+  function showError(msg: string) {
+    if (msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = 'block';
+    } else {
+      errorBox.style.display = 'none';
+    }
+  }
+
+  // Lógica de Login
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    showError('');
+    
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+    
+    btnLogin.disabled = true;
+    btnLogin.textContent = 'Carregando...';
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    btnLogin.disabled = false;
+    btnLogin.textContent = 'Entrar';
+
+    if (error) {
+      showError(error.message);
+      return;
+    }
+
+    window.location.href = '/';
+  });
+
+  // Lógica de Cadastro
+  btnSignup.addEventListener('click', async () => {
+    showError('');
+    
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    const password = (document.getElementById('password') as HTMLInputElement).value;
+    
+    if (!email || !password) {
+      showError('Preencha o e-mail e a senha para criar uma conta.');
+      return;
+    }
+
+    btnSignup.disabled = true;
+    btnSignup.textContent = 'Criando conta...';
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    btnSignup.disabled = false;
+    btnSignup.textContent = 'Criar conta';
+
+    if (error) {
+      showError(error.message);
+      return;
+    }
+
+    alert('Verifique seu e-mail para acessar o link de confirmação!');
+    window.location.href = '/';
+  });
+</script>
+
+<style>
+  /* Mantenha os seus estilos CSS aqui abaixo normalmente */
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  .auth-card {
+    background: #1a1a2e;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .error-message {
+    color: #e94560;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  /* Adicione o restante do seu CSS aqui */
+</style>
