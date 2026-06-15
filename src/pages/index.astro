@@ -414,347 +414,359 @@ import '../lib/auth-functions.js';
   
 <!-- Custom JavaScript for advanced animations and audio -->
 <script>
-// Import client-side scripts
-import '../scripts/CustomCursor.js';
-import '../scripts/TypingEffect.js';
-import '../scripts/ScrollReveal.js';
-import '../scripts/AnimatedCounter.js';
-import '../scripts/NavbarScroll.js';
-import '../scripts/ParallaxEffect.js';
-import '../scripts/SmoothScroll.js';
-import '../scripts/ContactForm.js';
-import '../scripts/CTAAction.js';
-import '../scripts/ParticleSystem.js';
-import '../scripts/HeroParticles.js';
-import '../scripts/MouseGlow.js';
-import '../scripts/CardTilt3D.js';
-import '../scripts/GalleryLightbox.js';
-import '../scripts/GalleryCarousel.js';
-
-document.addEventListener('DOMContentLoaded', function() {
-      // Premium font implementation
-      document.querySelectorAll('h1, h2, h3, .hero-title, .section-title h2, .logo h1').forEach(el => {
-        el.style.fontFamily = '"Cinzel", "Cormorant Garamond", "Playfair Display", serif';
-      });
-      
-      document.querySelectorAll('p, .stat-label, .carousel-counter span, .nav-links a, footer p').forEach(el => {
-        el.style.fontFamily = '"Inter", "Montserrat", sans-serif';
-      });
-      
-      // GSAP animations for hero section
-      gsap.to('.hero-title', {
-        y: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: '.hero',
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: true
-        }
-      });
-      
-      // ScrollTrigger for cover section
-      gsap.to('.game-cover', {
-        scale: 1.05,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: '.cover-section',
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: true
-        }
-      });
-      
-      // ScrollTrigger for stats
-      gsap.to('.stat-item', {
-        y: 0,
-        opacity: 1,
-        stagger: 0.2,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: '.stats-container',
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: true
-        }
-      });
-      
-      // ScrollTrigger for about cards
-      gsap.to('.about-card', {
-        y: 0,
-        opacity: 1,
-        stagger: 0.2,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: '.about-grid',
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: true
-        }
-      });
-      
-      // ScrollTrigger for features
-      gsap.to('.feature', {
-        y: 0,
-        opacity: 1,
-        stagger: 0.2,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: '.features',
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: true
-        }
-      });
-      
-      // Gallery upgrade with Splide.js
-      const splide = new Splide('#gallery-splide', {
-        type: 'slide',
-        perPage: 1,
-        perMove: 1,
-        pagination: false,
-        arrows: false,
-        gap: '1rem',
-        autoplay: true,
-        interval: 5000,
-        pauseOnHover: true,
-        pauseOnFocus: false,
-        speed: 800,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        transition: 'fade',
-        rewind: true,
-        drag: 'free',
-        wheel: true,
-        keyboard: true,
-        breakpoints: {
-          768: {
-            perPage: 1,
-            gap: '0.5rem'
-          }
-        }
-      });
-      
-      splide.mount();
-      
-      // Custom navigation buttons for gallery
-      const prevBtn = document.querySelector('.carousel-btn-prev');
-      const nextBtn = document.querySelector('.carousel-btn-next');
-      
-      if (prevBtn) {
-        prevBtn.addEventListener('click', () => splide.go('<'));
-      }
-      
-      if (nextBtn) {
-        nextBtn.addEventListener('click', () => splide.go('>'));
-      }
-      
-      // Update counter when slide changes
-      splide.on('mounted move', () => {
-        const current = splide.index + 1;
-        const total = splide.length;
-        
-        document.querySelector('.carousel-current').textContent = current;
-        document.querySelector('.carousel-total').textContent = total;
-      });
-      
-      // Microinteractions for menu links
-      document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          // Create a red line that expands from center
-          const line = document.createElement('div');
-          line.style.position = 'absolute';
-          line.style.height = '2px';
-          line.style.width = '0';
-          line.style.background = '#e94560';
-          line.style.top = '50%';
-          line.style.left = '50%';
-          line.style.transform = 'translate(-50%, -50%)';
-          line.style.borderRadius = '1px';
-          line.style.pointerEvents = 'none';
-          line.style.zIndex = '10';
-          
-          link.style.position = 'relative';
-          link.appendChild(line);
-          
-          gsap.to(line, {
-            width: '100%',
-            duration: 0.4,
-            ease: "power2.out",
-            onComplete: () => {
-              // Add neon glow effect
-              gsap.to(line, {
-                boxShadow: '0 0 10px #e94560, 0 0 20px rgba(233, 69, 96, 0.5)',
-                duration: 0.2
-              });
-            }
-          });
-          
-          // Add fade out effect
-          setTimeout(() => {
-            gsap.to(line, {
-              opacity: 0,
-              duration: 0.3,
-              onComplete: () => {
-                if (line.parentNode) {
-                  line.parentNode.removeChild(line);
-                }
-              }
-            });
-          }, 800);
-        });
-      });
-      
-// Enhanced audio functionality with Web Audio API
-const audio = document.getElementById('background-audio');
-const audioBtn = document.getElementById('audio-btn');
-const audioToggle = document.getElementById('audio-toggle');
-
-// Create audio context for advanced audio control
-let audioContext = null;
-let audioSource = null;
-let gainNode = null;
-
-// Initialize audio context on first user interaction
-function initAudioContext() {
-  if (typeof window !== 'undefined' && !audioContext) {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-    // Create gain node for volume control
-    gainNode = audioContext.createGain();
-    gainNode.gain.value = 0.3; // Reduce volume for ambient sound
-
-    // Create audio source from audio element
-    audioSource = audioContext.createMediaElementSource(audio);
-    audioSource.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+async function initClientScripts() {
+  if (typeof window !== 'undefined') {
+    // 1. Inicializa a sessão com import dinâmico
+    const { initSessionManagement } = await import('../lib/session');
+    initSessionManagement();
+    
+    // 2. Carrega todos os scripts visuais dinamicamente apenas no navegador
+    await import('../scripts/CustomCursor.js');
+    await import('../scripts/TypingEffect.js');
+    await import('../scripts/ScrollReveal.js');
+    await import('../scripts/AnimatedCounter.js');
+    await import('../scripts/NavbarScroll.js');
+    await import('../scripts/ParallaxEffect.js');
+    await import('../scripts/SmoothScroll.js');
+    await import('../scripts/ContactForm.js');
+    await import('../scripts/CTAAction.js');
+    await import('../scripts/ParticleSystem.js');
+    await import('../scripts/HeroParticles.js');
+    await import('../scripts/MouseGlow.js');
+    await import('../scripts/CardTilt3D.js');
+    await import('../scripts/GalleryLightbox.js');
+    await import('../scripts/GalleryCarousel.js');
+    await import('../scripts/BattleArena.js');
   }
 }
-      
-      // Play audio with fade-in
-      function playAudioWithFadeIn() {
-        initAudioContext();
-        
-        // Fade in over 3 seconds
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 3);
-        
-        // Start audio
-        if (audio.paused) {
-          audio.play().catch(e => {
-            console.log('Audio play failed:', e);
+
+// Executa imediatamente para o cliente disparar os downloads
+initClientScripts();
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Premium font implementation
+  document.querySelectorAll('h1, h2, h3, .hero-title, .section-title h2, .logo h1').forEach(el => {
+    el.style.fontFamily = '"Cinzel", "Cormorant Garamond", "Playfair Display", serif';
+  });
+
+  document.querySelectorAll('p, .stat-label, .carousel-counter span, .nav-links a, footer p').forEach(el => {
+    el.style.fontFamily = '"Inter", "Montserrat", sans-serif';
+  });
+
+  // GSAP animations for hero section
+  gsap.to('.hero-title', {
+    y: 0,
+    opacity: 1,
+    duration: 1.5,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: '.hero',
+      start: "top 80%",
+      end: "bottom 20%",
+      scrub: true
+    }
+  });
+
+  // ScrollTrigger for cover section
+  gsap.to('.game-cover', {
+    scale: 1.05,
+    opacity: 1,
+    duration: 1,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: '.cover-section',
+      start: "top 80%",
+      end: "bottom 20%",
+      scrub: true
+    }
+  });
+
+  // ScrollTrigger for stats
+  gsap.to('.stat-item', {
+    y: 0,
+    opacity: 1,
+    stagger: 0.2,
+    duration: 1,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: '.stats-container',
+      start: "top 80%",
+      end: "bottom 20%",
+      scrub: true
+    }
+  });
+
+  // ScrollTrigger for about cards
+  gsap.to('.about-card', {
+    y: 0,
+    opacity: 1,
+    stagger: 0.2,
+    duration: 1,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: '.about-grid',
+      start: "top 80%",
+      end: "bottom 20%",
+      scrub: true
+    }
+  });
+
+  // ScrollTrigger for features
+  gsap.to('.feature', {
+    y: 0,
+    opacity: 1,
+    stagger: 0.2,
+    duration: 1,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: '.features',
+      start: "top 80%",
+      end: "bottom 20%",
+      scrub: true
+    }
+  });
+
+  // Gallery upgrade with Splide.js
+  const splide = new Splide('#gallery-splide', {
+    type: 'slide',
+    perPage: 1,
+    perMove: 1,
+    pagination: false,
+    arrows: false,
+    gap: '1rem',
+    autoplay: true,
+    interval: 5000,
+    pauseOnHover: true,
+    pauseOnFocus: false,
+    speed: 800,
+    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    transition: 'fade',
+    rewind: true,
+    drag: 'free',
+    wheel: true,
+    keyboard: true,
+    breakpoints: {
+      768: {
+        perPage: 1,
+        gap: '0.5rem'
+      }
+    }
+  });
+
+  splide.mount();
+
+  // Custom navigation buttons for gallery
+  const prevBtn = document.querySelector('.carousel-btn-prev');
+  const nextBtn = document.querySelector('.carousel-btn-next');
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => splide.go('<'));
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => splide.go('>'));
+  }
+
+  // Update counter when slide changes
+  splide.on('mounted move', () => {
+    const current = splide.index + 1;
+    const total = splide.length;
+
+    document.querySelector('.carousel-current').textContent = current;
+    document.querySelector('.carousel-total').textContent = total;
+  });
+
+  // Microinteractions for menu links
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      // Create a red line that expands from center
+      const line = document.createElement('div');
+      line.style.position = 'absolute';
+      line.style.height = '2px';
+      line.style.width = '0';
+      line.style.background = '#e94560';
+      line.style.top = '50%';
+      line.style.left = '50%';
+      line.style.transform = 'translate(-50%, -50%)';
+      line.style.borderRadius = '1px';
+      line.style.pointerEvents = 'none';
+      line.style.zIndex = '10';
+
+      link.style.position = 'relative';
+      link.appendChild(line);
+
+      gsap.to(line, {
+        width: '100%',
+        duration: 0.4,
+        ease: "power2.out",
+        onComplete: () => {
+          // Add neon glow effect
+          gsap.to(line, {
+            boxShadow: '0 0 10px #e94560, 0 0 20px rgba(233, 69, 96, 0.5)',
+            duration: 0.2
           });
         }
-      }
-      
-      // Pause audio with fade-out
-      function pauseAudioWithFadeOut() {
-        if (audioContext && gainNode) {
-          // Fade out over 2 seconds
-          gainNode.gain.setValueAtTime(gainNode.gain.value, audioContext.currentTime);
-          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2);
-          
-          // Stop audio after fade out
-          setTimeout(() => {
-            if (!audio.paused) {
-              audio.pause();
-            }
-          }, 2000);
-        }
-      }
-      
-      // Audio toggle functionality with fade effects
-      audioBtn.addEventListener('click', function() {
-        if (audio.muted) {
-          // Unmute with fade in
-          audio.muted = false;
-          playAudioWithFadeIn();
-          audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><path d="M19 7v10"></path></svg>';
-          audioToggle.classList.remove('muted');
-          localStorage.setItem('audioMuted', 'false');
-        } else {
-          // Mute with fade out
-          pauseAudioWithFadeOut();
-          audio.muted = true;
-          audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19 7v10"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
-          audioToggle.classList.add('muted');
-          localStorage.setItem('audioMuted', 'true');
-        }
       });
-      
-      // Add audio toggle button to header for better visibility
-      const header = document.querySelector('header');
-      if (header) {
-        const audioButton = document.getElementById('audio-toggle');
-        header.appendChild(audioButton);
-      }
-      
-      // Audio transitions between sections
-      const sections = document.querySelectorAll('section');
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.id;
-            
-            // Change audio based on section
-            if (sectionId === 'home') {
-              // Main theme
-              audio.src = '/sounds/ambient-loop.mp3';
-              if (!audio.muted) {
-                audio.play().catch(e => {});
-              }
-            } else if (sectionId === 'capa') {
-              // Capa theme
-              audio.src = '/sounds/ambient-loop.mp3';
-              if (!audio.muted) {
-                audio.play().catch(e => {});
-              }
-            } else if (sectionId === 'sobre') {
-              // Sobre theme
-              audio.src = '/sounds/ambient-loop.mp3';
-              if (!audio.muted) {
-                audio.play().catch(e => {});
-              }
-            } else if (sectionId === 'jogabilidade') {
-              // Jogabilidade theme
-              audio.src = '/sounds/ambient-loop.mp3';
-              if (!audio.muted) {
-                audio.play().catch(e => {});
-              }
-            } else if (sectionId === 'galeria') {
-              // Galeria theme
-              audio.src = '/sounds/ambient-loop.mp3';
-              if (!audio.muted) {
-                audio.play().catch(e => {});
-              }
-            } else if (sectionId === 'batalha') {
-              // Batalha theme
-              audio.src = '/sounds/ambient-loop.mp3';
-              if (!audio.muted) {
-                audio.play().catch(e => {});
-              }
-            } else if (sectionId === 'contato') {
-              // Contato theme
-              audio.src = '/sounds/ambient-loop.mp3';
-              if (!audio.muted) {
-                audio.play().catch(e => {});
-              }
+
+      // Add fade out effect
+      setTimeout(() => {
+        gsap.to(line, {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            if (line.parentNode) {
+              line.parentNode.removeChild(line);
             }
           }
         });
-      }, { threshold: 0.3 });
-      
-      sections.forEach(section => {
-        observer.observe(section);
-      });
+      }, 800);
     });
-  </script>
+  });
+
+  // Enhanced audio functionality with Web Audio API
+  const audio = document.getElementById('background-audio');
+  const audioBtn = document.getElementById('audio-btn');
+  const audioToggle = document.getElementById('audio-toggle');
+
+  // Create audio context for advanced audio control
+  let audioContext = null;
+  let audioSource = null;
+  let gainNode = null;
+
+  // Initialize audio context on first user interaction
+  function initAudioContext() {
+    if (typeof window !== 'undefined' && !audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+      // Create gain node for volume control
+      gainNode = audioContext.createGain();
+      gainNode.gain.value = 0.3; // Reduce volume for ambient sound
+
+      // Create audio source from audio element
+      audioSource = audioContext.createMediaElementSource(audio);
+      audioSource.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+    }
+  }
+
+  // Play audio with fade-in
+  function playAudioWithFadeIn() {
+    initAudioContext();
+
+    // Fade in over 3 seconds
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 3);
+
+    // Start audio
+    if (audio.paused) {
+      audio.play().catch(e => {
+        console.log('Audio play failed:', e);
+      });
+    }
+  }
+
+  // Pause audio with fade-out
+  function pauseAudioWithFadeOut() {
+    if (audioContext && gainNode) {
+      // Fade out over 2 seconds
+      gainNode.gain.setValueAtTime(gainNode.gain.value, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2);
+
+      // Stop audio after fade out
+      setTimeout(() => {
+        if (!audio.paused) {
+          audio.pause();
+        }
+      }, 2000);
+    }
+  }
+
+  // Audio toggle functionality with fade effects
+  audioBtn.addEventListener('click', function() {
+    if (audio.muted) {
+      // Unmute with fade in
+      audio.muted = false;
+      playAudioWithFadeIn();
+      audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><path d="M19 7v10"></path></svg>';
+      audioToggle.classList.remove('muted');
+      localStorage.setItem('audioMuted', 'false');
+    } else {
+      // Mute with fade out
+      pauseAudioWithFadeOut();
+      audio.muted = true;
+      audioBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19 7v10"></path><path d="M15.5 10a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5z"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+      audioToggle.classList.add('muted');
+      localStorage.setItem('audioMuted', 'true');
+    }
+  });
+
+  // Add audio toggle button to header for better visibility
+  const header = document.querySelector('header');
+  if (header) {
+    const audioButton = document.getElementById('audio-toggle');
+    header.appendChild(audioButton);
+  }
+
+  // Audio transitions between sections
+  const sections = document.querySelectorAll('section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const sectionId = entry.target.id;
+
+        // Change audio based on section
+        if (sectionId === 'home') {
+          // Main theme
+          audio.src = '/sounds/ambient-loop.mp3';
+          if (!audio.muted) {
+            audio.play().catch(e => {});
+          }
+        } else if (sectionId === 'capa') {
+          // Capa theme
+          audio.src = '/sounds/ambient-loop.mp3';
+          if (!audio.muted) {
+            audio.play().catch(e => {});
+          }
+        } else if (sectionId === 'sobre') {
+          // Sobre theme
+          audio.src = '/sounds/ambient-loop.mp3';
+          if (!audio.muted) {
+            audio.play().catch(e => {});
+          }
+        } else if (sectionId === 'jogabilidade') {
+          // Jogabilidade theme
+          audio.src = '/sounds/ambient-loop.mp3';
+          if (!audio.muted) {
+            audio.play().catch(e => {});
+          }
+        } else if (sectionId === 'galeria') {
+          // Galeria theme
+          audio.src = '/sounds/ambient-loop.mp3';
+          if (!audio.muted) {
+            audio.play().catch(e => {});
+          }
+        } else if (sectionId === 'batalha') {
+          // Batalha theme
+          audio.src = '/sounds/ambient-loop.mp3';
+          if (!audio.muted) {
+            audio.play().catch(e => {});
+          }
+        } else if (sectionId === 'contato') {
+          // Contato theme
+          audio.src = '/sounds/ambient-loop.mp3';
+          if (!audio.muted) {
+            audio.play().catch(e => {});
+          }
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+});
+</script>
 </body>
 </html>
