@@ -431,17 +431,12 @@ import '../scripts/CardTilt3D.js';
 import '../scripts/GalleryLightbox.js';
 import '../scripts/GalleryCarousel.js';
 
-// Dynamic import for BattleArena.js with error handling (file may not exist)
-// This prevents build failures on case-sensitive systems like Vercel
-(async () => {
-  try {
-    await import('../scripts/BattleArena.js');
-  } catch (error) {
-    console.warn('BattleArena.js not found, skipping initialization');
-  }
-})();
+// Test these variants to find the correct case-sensitive filename:
+// import '../scripts/battleArena.js';
+// import '../scripts/battlearena.js';
+import '../scripts/BattleArena.js';
 
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
       // Premium font implementation
       document.querySelectorAll('h1, h2, h3, .hero-title, .section-title h2, .logo h1').forEach(el => {
         el.style.fontFamily = '"Cinzel", "Cormorant Garamond", "Playfair Display", serif';
