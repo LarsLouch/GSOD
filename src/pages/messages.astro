@@ -32,42 +32,42 @@ import Layout from '../layouts/AuthLayout.astro'; // Ajuste o caminho do seu lay
   import { supabase } from '../lib/supabase';
   import { getCurrentUser, isAuthenticated } from '../lib/session';
 
-  // Elementos da tela
-  const loadingBox = document.getElementById('loading-box') as HTMLDivElement;
-  const messagesList = document.getElementById('messages-list') as HTMLDivElement;
-  const messageInput = document.getElementById('message-input') as HTMLInputElement;
-  const btnSend = document.getElementById('btn-send') as HTMLButtonElement;
-  const btnLogout = document.getElementById('btn-logout') as HTMLButtonElement;
+// Elementos da tela
+const loadingBox = document.getElementById('loading-box');
+const messagesList = document.getElementById('messages-list');
+const messageInput = document.getElementById('message-input');
+const btnSend = document.getElementById('btn-send');
+const btnLogout = document.getElementById('btn-logout');
 
-  let currentUser = getCurrentUser();
-  let isSending = false;
+let currentUser = getCurrentUser();
+let isSending = false;
 
-  // Formatar a hora no padrão pt-BR [cite: 36]
-  function formatDate(dateString: string) {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('pt-BR', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  }
+// Formatar a hora no padrão pt-BR [cite: 36]
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString('pt-BR', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
 
-  // Renderiza uma única mensagem na tela
-  function appendMessage(message: any) {
-    const isMe = message.sent_by === currentUser?.email;
-    const messageHtml = `
-      <div class="message ${isMe ? 'sent' : ''}">
-        <div class="message-header">
-          <span class="message-sender">${message.sent_by}</span>
-          <span class="message-time">${formatDate(message.created_at)}</span>
-        </div>
-        <div class="message-body">
-          ${message.text}
-        </div>
-      </div>
-    `;
-    messagesList.insertAdjacentHTML('beforeend', messageHtml);
-    messagesList.scrollTop = messagesList.scrollHeight;
-  }
+// Renderiza uma única mensagem na tela
+function appendMessage(message) {
+  const isMe = message.sent_by === currentUser?.email;
+  const messageHtml = `
+  <div class="message ${isMe ? 'sent' : ''}">
+    <div class="message-header">
+      <span class="message-sender">${message.sent_by}</span>
+      <span class="message-time">${formatDate(message.created_at)}</span>
+    </div>
+    <div class="message-body">
+      ${message.text}
+    </div>
+  </div>
+  `;
+  messagesList.insertAdjacentHTML('beforeend', messageHtml);
+  messagesList.scrollTop = messagesList.scrollHeight;
+}
 
   // Carrega o histórico de mensagens do banco de dados [cite: 31]
   async function loadMessages() {
