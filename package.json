@@ -1,13 +1,23 @@
 {
-  "name": "site_oultimobrasileiro",
+  "name": "o-ultimo-brasileiro",
   "version": "1.0.0",
-  "description": "Parent project for O Último Brasileiro",
-  "main": "index.html",
-  "scripts": {},
-  "keywords": [],
+  "description": "Landing page for O Último Brasileiro game with Astro optimization",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "keywords": [
+    "astro",
+    "gaming",
+    "landing-page",
+    "website"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "astro": "^5.0.6"
+    "astro": "^6.4.6"
   }
 }
