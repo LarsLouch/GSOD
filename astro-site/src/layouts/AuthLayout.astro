@@ -1,0 +1,41 @@
+---
+import { onMount } from 'astro:components';
+import { initSessionManagement, isAuthenticated, getCurrentUser } from '../lib/session';
+
+// Initialize session management when component mounts
+onMount(() => {
+  initSessionManagement();
+});
+
+// Get current user
+const user = getCurrentUser();
+---
+
+<slot />
+
+<script>
+// Add a global event listener for session changes
+window.addEventListener('sessionChanged', () => {
+  // Re-render the layout when session changes
+  const user = getCurrentUser();
+  
+  // Update the user status in the UI
+  const userStatus = document.getElementById('user-status');
+  const loginLink = document.getElementById('login-link');
+  const logoutLink = document.getElementById('logout-link');
+  const messagingLink = document.getElementById('messaging-link');
+  
+  if (user && userStatus) {
+    userStatus.textContent = user.email;
+    userStatus.style.display = 'inline';
+    if (loginLink) loginLink.style.display = 'none';
+    if (logoutLink) logoutLink.style.display = 'inline';
+    if (messagingLink) messagingLink.style.display = 'inline';
+  } else {
+    if (userStatus) userStatus.style.display = 'none';
+    if (loginLink) loginLink.style.display = 'inline';
+    if (logoutLink) logoutLink.style.display = 'none';
+    if (messagingLink) messagingLink.style.display = 'none';
+  }
+});
+</script>

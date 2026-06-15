@@ -23,6 +23,17 @@ import '../scripts/CardTilt3D.js';
 import '../scripts/GalleryLightbox.js';
 import '../scripts/GalleryCarousel.js';
 import '../scripts/BattleArena.js';
+
+// Import session management
+import { initSessionManagement } from '../lib/session';
+
+// Initialize session management when component mounts
+onMount(() => {
+  initSessionManagement();
+});
+
+// Import auth functions
+import '../lib/auth-functions.js';
 ---
 
 <!DOCTYPE html>
@@ -32,15 +43,15 @@ import '../scripts/BattleArena.js';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>O Último Brasileiro</title>
   <link rel="icon" type="image/png" href="/images/icons/icon512x512.png">
-  
+
   <!-- GSAP and ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" async></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" async></script>
-  
+
   <!-- Splide.js for gallery upgrade -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" async></script>
-  
+
   <!-- Premium fonts from Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -48,21 +59,21 @@ import '../scripts/BattleArena.js';
   <!-- Cursor Personalizado -->
   <div class="cursor-dot"></div>
   <div class="cursor-ring"></div>
-  
+
   <!-- Overlays Cinematográficos -->
   <div class="scanlines-overlay"></div>
   <div class="vignette-overlay"></div>
   <div class="starfield"></div>
-  
+
   <!-- Esferas Flutuantes -->
   <div class="floating-orb"></div>
   <div class="floating-orb"></div>
   <div class="floating-orb"></div>
   <div class="floating-orb"></div>
-  
+
   <!-- Canvas de Partículas -->
   <canvas id="particles-canvas"></canvas>
-  
+
   <!-- Header / Navbar -->
   <header>
     <nav class="navbar">
@@ -78,10 +89,14 @@ import '../scripts/BattleArena.js';
         <li><a href="#galeria">Galeria</a></li>
         <li><a href="#batalha">Batalha</a></li>
         <li><a href="#contato">Contato</a></li>
+        <li><a id="login-link" href="/login" style="display: inline;">Login</a></li>
+        <li><a id="logout-link" href="#" style="display: none;" onclick="signOut()">Sair</a></li>
+        <li><a id="messaging-link" href="/messages" style="display: none;">Mensagens</a></li>
+        <span id="user-status" style="display: none; margin-left: 10px; color: #e94560; font-weight: 500;"></span>
       </ul>
     </nav>
   </header>
-  
+
   <main>
     <!-- HERO SECTION -->
     <section id="home" class="hero">
