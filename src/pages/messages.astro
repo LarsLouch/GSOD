@@ -42,7 +42,7 @@ const btnLogout = document.getElementById('btn-logout');
 let currentUser = getCurrentUser();
 let isSending = false;
 
-// Formatar a hora no padrão pt-BR [cite: 36]
+// Formatar a hora no padrão pt-BR
 function formatDate(dateString) {
   const date = new Date(dateString);
   return date.toLocaleTimeString('pt-BR', {
@@ -69,58 +69,58 @@ function appendMessage(message) {
   messagesList.scrollTop = messagesList.scrollHeight;
 }
 
-  // Carrega o histórico de mensagens do banco de dados [cite: 31]
-  async function loadMessages() {
-    const { data, error } = await supabase
-      .from('messages')
-      .select('*')
-      .order('created_at', { ascending: true }); [cite: 31]
+// Carrega o histórico de mensagens do banco de dados
+async function loadMessages() {
+  const { data, error } = await supabase
+  .from('messages')
+  .select('*')
+  .order('created_at', { ascending: true });
 
-    if (error) {
-      console.error('Erro ao carregar histórico:', error); [cite: 32]
-      return;
-    }
-
-    if (data) {
-      messagesList.innerHTML = ''; // Limpa a lista
-      data.forEach(msg => appendMessage(msg));
-    }
+  if (error) {
+    console.error('Erro ao carregar histórico:', error);
+    return;
   }
 
-  // Envia uma nova mensagem para o Supabase [cite: 33]
-  async function sendMessage() {
-    const text = messageInput.value.trim();
-    if (!text || isSending || !currentUser) return; [cite: 33]
-
-    isSending = true;
-    messageInput.disabled = true;
-    btnSend.disabled = true;
-    btnSend.textContent = 'Enviando...'; [cite: 38]
-
-    const { error } = await supabase
-      .from('messages')
-      .insert([
-        {
-          sent_by: currentUser.email,
-          received_by: 'all', // Envia para a sala geral [cite: 34]
-          text: text,
-          created_at: new Date().toISOString() [cite: 34]
-        }
-      ]); [cite: 34]
-
-    isSending = false;
-    messageInput.disabled = false;
-    btnSend.disabled = false;
-    btnSend.textContent = 'Enviar'; [cite: 35, 38]
-
-    if (error) {
-      console.error('Erro ao enviar mensagem:', error); [cite: 35]
-      return;
-    }
-
-    messageInput.value = ''; // Limpa o campo [cite: 35]
-    messageInput.focus();
+  if (data) {
+    messagesList.innerHTML = ''; // Limpa a lista
+    data.forEach(msg => appendMessage(msg));
   }
+}
+
+// Envia uma nova mensagem para o Supabase
+async function sendMessage() {
+  const text = messageInput.value.trim();
+  if (!text || isSending || !currentUser) return;
+
+  isSending = true;
+  messageInput.disabled = true;
+  btnSend.disabled = true;
+  btnSend.textContent = 'Enviando...';
+
+  const { error } = await supabase
+  .from('messages')
+  .insert([
+    {
+      sent_by: currentUser.email,
+      received_by: 'all', // Envia para a sala geral
+      text: text,
+      created_at: new Date().toISOString()
+    }
+  ]);
+
+  isSending = false;
+  messageInput.disabled = false;
+  btnSend.disabled = false;
+  btnSend.textContent = 'Enviar';
+
+  if (error) {
+    console.error('Erro ao enviar mensagem:', error);
+    return;
+  }
+
+  messageInput.value = ''; // Limpa o campo
+  messageInput.focus();
+}
 
   // Inicialização do Chat ao montar a página no navegador 
   async function init() {
