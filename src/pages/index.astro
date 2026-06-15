@@ -6,24 +6,6 @@ import '../../css/responsive.css';
 import '../../css/effects-premium.css';
 import '../../css/variables.css';
 
-// Import scripts
-import '../../js/CustomCursor.js';
-import '../../js/TypingEffect.js';
-import '../../js/ScrollReveal.js';
-import '../../js/AnimatedCounter.js';
-import '../../js/NavbarScroll.js';
-import '../../js/ParallaxEffect.js';
-import '../../js/SmoothScroll.js';
-import '../../js/ContactForm.js';
-import '../../js/CTAAction.js';
-import '../../js/ParticleSystem.js';
-import '../../js/HeroParticles.js';
-import '../../js/MouseGlow.js';
-import '../../js/CardTilt3D.js';
-import '../../js/GalleryLightbox.js';
-import '../../js/GalleryCarousel.js';
-import '../../js/BattleArena.js';
-
 // Import session management
 import { initSessionManagement } from '../lib/session';
 
@@ -430,9 +412,27 @@ import '../lib/auth-functions.js';
     Seu navegador não suporta o elemento de áudio.
   </audio>
   
-  <!-- Custom JavaScript for advanced animations and audio -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
+<!-- Custom JavaScript for advanced animations and audio -->
+<script>
+  // Import client-side scripts
+  import '../../js/CustomCursor.js';
+  import '../../js/TypingEffect.js';
+  import '../../js/ScrollReveal.js';
+  import '../../js/AnimatedCounter.js';
+  import '../../js/NavbarScroll.js';
+  import '../../js/ParallaxEffect.js';
+  import '../../js/SmoothScroll.js';
+  import '../../js/ContactForm.js';
+  import '../../js/CTAAction.js';
+  import '../../js/ParticleSystem.js';
+  import '../../js/HeroParticles.js';
+  import '../../js/MouseGlow.js';
+  import '../../js/CardTilt3D.js';
+  import '../../js/GalleryLightbox.js';
+  import '../../js/GalleryCarousel.js';
+  import '../../js/BattleArena.js';
+
+  document.addEventListener('DOMContentLoaded', function() {
       // Premium font implementation
       document.querySelectorAll('h1, h2, h3, .hero-title, .section-title h2, .logo h1').forEach(el => {
         el.style.fontFamily = '"Cinzel", "Cormorant Garamond", "Playfair Display", serif';
