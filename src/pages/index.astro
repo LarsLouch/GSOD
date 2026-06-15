@@ -611,31 +611,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
       
-      // Enhanced audio functionality with Web Audio API
-      const audio = document.getElementById('background-audio');
-      const audioBtn = document.getElementById('audio-btn');
-      const audioToggle = document.getElementById('audio-toggle');
-      
-      // Create audio context for advanced audio control
-      let audioContext = null;
-      let audioSource = null;
-      let gainNode = null;
-      
-      // Initialize audio context on first user interaction
-      function initAudioContext() {
-        if (!audioContext) {
-          audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          
-          // Create gain node for volume control
-          gainNode = audioContext.createGain();
-          gainNode.gain.value = 0.3; // Reduce volume for ambient sound
-          
-          // Create audio source from audio element
-          audioSource = audioContext.createMediaElementSource(audio);
-          audioSource.connect(gainNode);
-          gainNode.connect(audioContext.destination);
-        }
-      }
+// Enhanced audio functionality with Web Audio API
+const audio = document.getElementById('background-audio');
+const audioBtn = document.getElementById('audio-btn');
+const audioToggle = document.getElementById('audio-toggle');
+
+// Create audio context for advanced audio control
+let audioContext = null;
+let audioSource = null;
+let gainNode = null;
+
+// Initialize audio context on first user interaction
+function initAudioContext() {
+  if (typeof window !== 'undefined' && !audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Create gain node for volume control
+    gainNode = audioContext.createGain();
+    gainNode.gain.value = 0.3; // Reduce volume for ambient sound
+
+    // Create audio source from audio element
+    audioSource = audioContext.createMediaElementSource(audio);
+    audioSource.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+  }
+}
       
       // Play audio with fade-in
       function playAudioWithFadeIn() {
