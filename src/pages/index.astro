@@ -27,15 +27,15 @@ import '../scripts/BattleArena.js';
 // Import session management
 import { initSessionManagement } from '../lib/session';
 
+// Import auth functions
+import '../lib/auth-functions.js';
+
 <script>
   // Initialize session management after the page loads
   document.addEventListener('DOMContentLoaded', () => {
     initSessionManagement();
   });
 </script>
-
-// Import auth functions
-import '../lib/auth-functions.js';
 ---
 
 <!DOCTYPE html>
