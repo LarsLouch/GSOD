@@ -1,0 +1,15 @@
+# Robots.txt para O Último Brasileiro
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://seu-dominio.vercel.app/sitemap.xml
+
+# Bloquear acesso a arquivos de sistema
+Disallow: /.env
+Disallow: /.git
+Disallow: /node_modules
+Disallow: /.gitignore
+Disallow: /package.json
+Disallow: /package-lock.json
