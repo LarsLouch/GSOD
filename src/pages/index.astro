@@ -420,7 +420,7 @@ async function initClientScripts() {
     const { initSessionManagement } = await import('../lib/session');
     initSessionManagement();
     
-    // 2. Carrega todos os scripts visuais dinamicamente apenas no navegador
+// 2. Carrega todos os scripts visuais dinamicamente apenas no navegador
     await import('../scripts/CustomCursor.js');
     await import('../scripts/TypingEffect.js');
     await import('../scripts/ScrollReveal.js');
@@ -436,7 +436,6 @@ async function initClientScripts() {
     await import('../scripts/CardTilt3D.js');
     await import('../scripts/GalleryLightbox.js');
     await import('../scripts/GalleryCarousel.js');
-    await import('../scripts/BattleArena.js');
   }
 }
 
