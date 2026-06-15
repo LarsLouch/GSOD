@@ -1,151 +1,251 @@
 ---
-import { supabase } from '../lib/supabase';
-import { onMount } from 'astro:components';
-import { getCurrentUser, isAuthenticated } from '../lib/session';
-
-let messages = [];
-let newMessage = '';
-let user = getCurrentUser();
-let isLoading = true;
-let isSending = false;
-
-// Initialize messaging system
-onMount(async () => {
- // Check if user is authenticated
- if (!isAuthenticated()) {
- window.location.href = '/login';
- return;
- }
- 
- // Load message history
- await loadMessages();
- 
- // Set up real-time listener for new messages
- const realTimeChannel = supabase
- .channel('messages-realtime')
- .on('postgres_changes', {
- event: 'INSERT',
- schema: 'public',
- table: 'messages'
- }, (payload) => {
- // Add new message to the list
- messages = [...messages, payload.new];
- 
- // Scroll to bottom
- const messagesContainer = document.getElementById('messages-container');
- if (messagesContainer) {
- messagesContainer.scrollTop = messagesContainer.scrollHeight;
- }
- })
- .subscribe();
- 
- // Set loading to false after initialization
- isLoading = false;
-});
-
-// Load message history
-async function loadMessages() {
- const { data, error } = await supabase
- .from('messages')
- .select('*')
- .order('created_at', { ascending: true });
- 
- if (error) {
- console.error('Error loading messages:', error);
- return;
- }
- 
- messages = data;
-}
-
-// Send a new message
-async function sendMessage() {
- if (!newMessage.trim() || isSending) return;
- 
- isSending = true;
- 
- const { data, error } = await supabase
- .from('messages')
- .insert([
- {
- sent_by: user.email,
- received_by: 'all', // For now, send to all users
- text: newMessage,
- created_at: new Date().toISOString()
- }
- ]);
- 
- isSending = false;
- 
- if (error) {
- console.error('Error sending message:', error);
- return;
- }
- 
- // Clear input field
- newMessage = '';
-}
-
-// Format date
-function formatDate(dateString) {
- const date = new Date(dateString);
- return date.toLocaleTimeString('pt-BR', {
- hour: '2-digit',
- minute: '2-digit'
- });
-}
+import Layout from '../layouts/Layout.astro'; // Ajuste o caminho do seu layout se necessário
 ---
 
 <Layout>
- <div class="messages-container">
- <header class="messages-header">
- <h1>Mensagens</h1>
- <button class="logout-btn" onclick="signOut()">Sair</button>
- </header>
- 
- <div class="messages-content">
- {#if isLoading}
- <div class="loading">Carregando mensagens...</div>
- {:else}
- <div id="messages-container" class="messages-list">
- {#each messages as message}
- <div class="message {#if message.sent_by === user.email}sent{/if}">
- <div class="message-header">
- <span class="message-sender">{message.sent_by}</span>
- <span class="message-time">{formatDate(message.created_at)}</span>
- </div>
- <div class="message-body">
- {message.text}
- </div>
- </div>
- {/each}
- </div>
- {/if}
- 
- <div class="message-input-container">
- <input
- type="text"
- bind:value={newMessage}
- placeholder="Digite sua mensagem..."
- on:keydown|preventDefault={async (e) => {
- if (e.key === 'Enter') {
- await sendMessage();
- }
- }}
- disabled={isSending}
- >
- <button
- class="send-btn"
- on:click={sendMessage}
- disabled={isSending || !newMessage.trim()}
- >
- {#if isSending}
- Enviando...
- {:else}
- Enviar
- {/if}
- </button>
- </div>
- </div>
- </div>
+  <div class="messages-container">
+    <header class="messages-header">
+      <h1>Mensagens</h1>
+      <button class="logout-btn" id="btn-logout">Sair</button>
+    </header>
+    
+    <div class="messages-content">
+      <div id="loading-box" class="loading">Carregando mensagens...</div>
+      
+      <div id="messages-list" class="messages-list" style="display: none;"></div>
+      
+      <div class="message-input-container">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Digite sua mensagem..."
+        >
+        <button class="send-btn" id="btn-send">
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
 </Layout>
+
+<script>
+  import { supabase } from '../lib/supabase';
+  import { getCurrentUser, isAuthenticated } from '../lib/session';
+
+  // Elementos da tela
+  const loadingBox = document.getElementById('loading-box') as HTMLDivElement;
+  const messagesList = document.getElementById('messages-list') as HTMLDivElement;
+  const messageInput = document.getElementById('message-input') as HTMLInputElement;
+  const btnSend = document.getElementById('btn-send') as HTMLButtonElement;
+  const btnLogout = document.getElementById('btn-logout') as HTMLButtonElement;
+
+  let currentUser = getCurrentUser();
+  let isSending = false;
+
+  // Formatar a hora no padrão pt-BR [cite: 36]
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  // Renderiza uma única mensagem na tela
+  function appendMessage(message: any) {
+    const isMe = message.sent_by === currentUser?.email;
+    const messageHtml = `
+      <div class="message ${isMe ? 'sent' : ''}">
+        <div class="message-header">
+          <span class="message-sender">${message.sent_by}</span>
+          <span class="message-time">${formatDate(message.created_at)}</span>
+        </div>
+        <div class="message-body">
+          ${message.text}
+        </div>
+      </div>
+    `;
+    messagesList.insertAdjacentHTML('beforeend', messageHtml);
+    messagesList.scrollTop = messagesList.scrollHeight;
+  }
+
+  // Carrega o histórico de mensagens do banco de dados [cite: 31]
+  async function loadMessages() {
+    const { data, error } = await supabase
+      .from('messages')
+      .select('*')
+      .order('created_at', { ascending: true }); [cite: 31]
+
+    if (error) {
+      console.error('Erro ao carregar histórico:', error); [cite: 32]
+      return;
+    }
+
+    if (data) {
+      messagesList.innerHTML = ''; // Limpa a lista
+      data.forEach(msg => appendMessage(msg));
+    }
+  }
+
+  // Envia uma nova mensagem para o Supabase [cite: 33]
+  async function sendMessage() {
+    const text = messageInput.value.trim();
+    if (!text || isSending || !currentUser) return; [cite: 33]
+
+    isSending = true;
+    messageInput.disabled = true;
+    btnSend.disabled = true;
+    btnSend.textContent = 'Enviando...'; [cite: 38]
+
+    const { error } = await supabase
+      .from('messages')
+      .insert([
+        {
+          sent_by: currentUser.email,
+          received_by: 'all', // Envia para a sala geral [cite: 34]
+          text: text,
+          created_at: new Date().toISOString() [cite: 34]
+        }
+      ]); [cite: 34]
+
+    isSending = false;
+    messageInput.disabled = false;
+    btnSend.disabled = false;
+    btnSend.textContent = 'Enviar'; [cite: 35, 38]
+
+    if (error) {
+      console.error('Erro ao enviar mensagem:', error); [cite: 35]
+      return;
+    }
+
+    messageInput.value = ''; // Limpa o campo [cite: 35]
+    messageInput.focus();
+  }
+
+  // Inicialização do Chat ao montar a página no navegador 
+  async function init() {
+    if (!isAuthenticated()) {
+      window.location.href = '/login'; 
+      return;
+    }
+
+    // Carrega o histórico de mensagens salvas 
+    await loadMessages();
+
+    // Remove a tela de carregamento e exibe a lista 
+    loadingBox.style.display = 'none';
+    messagesList.style.display = 'block';
+    messagesList.scrollTop = messagesList.scrollHeight;
+
+    // Escuta novas mensagens inseridas no banco em tempo real 
+    supabase
+      .channel('messages-realtime')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'messages'
+      }, (payload) => {
+        appendMessage(payload.new); 
+      })
+      .subscribe(); 
+  }
+
+  // Escutadores de Eventos (Clicks e Teclado)
+  btnSend.addEventListener('click', sendMessage);
+
+  messageInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      sendMessage(); 
+    }
+  });
+
+  btnLogout.addEventListener('click', () => {
+    // Adicione sua função de logout aqui (Ex: supabase.auth.signOut()) 
+    localStorage.clear(); 
+    window.location.href = '/login';
+  });
+
+  // Roda a inicialização automática
+  init();
+</script>
+
+<style>
+  /* Seus estilos CSS permanecem intactos aqui abaixo */
+  .messages-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #fff;
+  }
+  .messages-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .messages-list {
+    background: #1a1a2e;
+    height: 400px;
+    overflow-y: auto;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(233, 69, 96, 0.2);
+  }
+  .message {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    background: #0f0f1a;
+    max-width: 70%;
+  }
+  .message.sent {
+    background: #e94560;
+    margin-left: auto;
+  }
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #8b8b9e;
+    margin-bottom: 0.25rem;
+  }
+  .message.sent .message-header * {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .message-input-container {
+    display: flex;
+    gap: 1rem;
+  }
+  .message-input-container input {
+    flex: 1;
+    background: #1a1a2e;
+    border: 1px solid #30304a;
+    padding: 0.75rem;
+    color: #fff;
+    border-radius: 4px;
+    outline: none;
+  }
+  .send-btn {
+    background: #e94560;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .logout-btn {
+    background: transparent;
+    color: #8b8b9e;
+    border: 1px solid #30304a;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .loading {
+    text-align: center;
+    color: #8b8b9e;
+    padding: 2rem;
+  }
+</style>
